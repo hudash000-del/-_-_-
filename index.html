@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منصة الرخصة المهنية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700&display=swap">
+<style>
+/* Layout: single centered column (max 760px), sticky top bar, card stack; RTL throughout */
+:root{
+  --bg:#f3f6f8; --surface:#ffffff; --surface-2:#e8f1f4; --line:#dcdedf;
+  --ink:#15445a; --text:#1d3442; --muted:#5e7480;
+  --brand:#15445a; --brand-2:#3d7eb9; --teal:#0da9a6; --teal-soft:#dcf2f1;
+  --good:#07a869; --good-soft:#dff4ea; --bad:#c2413b; --bad-soft:#fbe8e6;
+  --warn-soft:#f5f1e6; --warn-line:#c1b489; --on-brand:#ffffff; --sand:#c1b489; --grey:#c2c1c1;
+  --hero-a:#15445a; --hero-b:#3d7eb9; --hero-c:#0da9a6;
+  --display:"Readex Pro","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1b23; --surface:#122833; --surface-2:#183441; --line:#25404d;
+  --ink:#e4eef2; --text:#d6e3e8; --muted:#97adb7; --brand:#6fb0e0; --brand-2:#3d7eb9; --teal:#3fcfcb; --teal-soft:#123a3c;
+  --good:#3fd193; --good-soft:#12352a; --bad:#f08a83; --bad-soft:#3a1d1c; --warn-soft:#2a2719; --warn-line:#8a7f57; --on-brand:#0c1b23;
+  --hero-a:#123a4d; --hero-b:#2d6699; --hero-c:#0b8c8a;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1b23; --surface:#122833; --surface-2:#183441; --line:#25404d;
+  --ink:#e4eef2; --text:#d6e3e8; --muted:#97adb7; --brand:#6fb0e0; --brand-2:#3d7eb9; --teal:#3fcfcb; --teal-soft:#123a3c;
+  --good:#3fd193; --good-soft:#12352a; --bad:#f08a83; --bad-soft:#3a1d1c; --warn-soft:#2a2719; --warn-line:#8a7f57; --on-brand:#0c1b23;
+  --hero-a:#123a4d; --hero-b:#2d6699; --hero-c:#0b8c8a;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;color:var(--brand);font-size:1.1rem;background:none;border:0;cursor:pointer;padding:0}
+.logo{width:40px;height:40px;border-radius:12px;background:var(--brand);color:var(--on-brand);display:grid;place-items:center}
+.iconbtn{width:42px;height:42px;border-radius:12px;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.iconbtn:hover,.iconbtn[aria-expanded="true"]{background:var(--surface-2);color:var(--brand)}
+nav.menu{display:flex;flex-wrap:nowrap;gap:4px;overflow-x:auto;scrollbar-width:none;margin-inline:-6px;padding-block:0 8px}
+nav.menu::-webkit-scrollbar{display:none}
+nav.menu button{display:flex;align-items:center;gap:7px;flex:none;white-space:nowrap;padding:9px 13px;border-radius:12px;border:0;background:transparent;color:var(--muted);font:500 .95rem var(--body);cursor:pointer;position:relative}
+nav.menu button svg.i{width:18px;height:18px}
+nav.menu button.on{background:var(--surface-2);color:var(--brand);font-weight:700}
+nav.menu button.on::after{content:"";position:absolute;inset:auto 13px -8px;height:3px;border-radius:3px 3px 0 0;background:var(--teal)}
+nav.menu button:hover{background:var(--surface-2);color:var(--ink)}
+.toprow{display:flex;flex-wrap:wrap;align-items:center;column-gap:12px;padding-top:10px}
+.toprow .brand{order:1;font-size:1.02rem}
+.toprow #themeBtn{order:2;margin-inline-start:auto}
+.toprow nav.menu{order:3;flex-basis:100%;margin-top:8px}
+@media (min-width:900px){
+  header.top .wrap{max-width:1180px}
+  .toprow{flex-wrap:nowrap;padding-block:10px}
+  .toprow .brand{order:0;flex:none;font-size:1.1rem}
+  .toprow nav.menu{order:0;flex:1 1 auto;flex-basis:auto;justify-content:center;margin:0;padding:0}
+  .toprow #themeBtn{order:0;margin-inline-start:0;flex:none}
+  nav.menu button.on::after{bottom:-11px}
+}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+main{padding-block:22px 40px;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{color:var(--ink);font-family:var(--display);text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:clamp(1.6rem,4.6vw,2.1rem)}
+h2{font-size:1.05rem;color:var(--muted);font-weight:600}
+p{margin:0}
+.hero{position:relative;overflow:hidden;border-radius:28px;padding:30px 26px;color:#fff;background:linear-gradient(135deg,var(--hero-a) 0%,var(--hero-b) 60%,var(--hero-c) 100%);box-shadow:0 14px 30px -18px rgba(21,68,90,.6)}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.16);pointer-events:none}
+.hero::before{width:420px;height:420px;left:-160px;top:-40px}
+.hero::after{width:300px;height:300px;left:-60px;top:60px;background:rgba(255,255,255,.04)}
+.hero>*{position:relative}
+.hero .eyebrow{font-weight:700;font-size:.95rem;opacity:.95}
+.hero .school{opacity:.85;font-size:.92rem}
+.hero h1{margin-block:6px 6px;color:#fff}
+.hero .principal{opacity:.85;font-size:.92rem}
+.hero p.lead{opacity:.9}
+.hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:14px;padding:12px 20px;font:600 1rem var(--body);cursor:pointer;border:1px solid transparent;text-decoration:none}
+.btn:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.btn-light{background:#fff;color:#15445a}
+.btn-ghost-light{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.45)}
+.btn-primary{background:var(--brand);color:var(--on-brand)}
+.btn-primary:hover{background:var(--brand-2)}
+.btn-outline{background:var(--surface);color:var(--brand);border-color:var(--line)}
+.btn-outline:hover{border-color:var(--brand)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.notice{display:flex;gap:10px;align-items:flex-start;background:var(--warn-soft);border:1px solid var(--warn-line);border-radius:16px;padding:14px 16px;font-size:.95rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:700px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  main{padding-block:16px 32px;gap:18px}
+  .hero{padding:24px 18px;border-radius:22px}
+  .hero .acts .btn{flex:1 1 140px}
+  .card{padding:16px}
+  .qtext{font-size:1.08rem}
+  .opt{padding:12px}
+  .qnav .btn{flex:1}
+  .ring{width:130px;height:130px}
+  th,td{padding:8px 6px;font-size:.88rem}
+  .countnum input{width:72px}
+}
+.badge{width:48px;height:48px;border-radius:14px;background:var(--teal-soft);color:var(--teal);display:grid;place-items:center;margin-bottom:12px}
+.card h3{font-size:1.08rem;margin-bottom:2px}
+.chead{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.chead .badge{margin:0;flex:none;width:44px;height:44px}
+.chead h3{margin:0}
+.card .sub{color:var(--muted);font-size:.93rem}
+.card .btn{margin-top:14px}
+.feature{display:flex;flex-direction:column}
+.feature .btn{align-self:center;margin-top:auto;min-width:120px}
+.feature .sub{margin-bottom:14px}
+.stat{font-family:var(--display);font-size:2rem;font-weight:700;color:var(--brand);font-variant-numeric:tabular-nums;line-height:1.2}
+.crumbs{font-size:.88rem;color:var(--muted)}
+.crumbs button{background:none;border:0;padding:0;color:var(--brand);text-decoration:underline;font:inherit;cursor:pointer}
+.back{align-self:flex-start;background:var(--surface-2);color:var(--brand);border:0}
+.spec{display:flex;align-items:center;gap:14px;text-align:right;width:100%;cursor:pointer;font:inherit;color:inherit}
+.spec .badge{margin:0;width:44px;height:44px;flex:none}
+.spec .t{flex:1;min-width:0}
+.spec .n{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.spec:hover{border-color:var(--brand)}
+.counts{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 18px;font:600 1rem var(--body);cursor:pointer;font-variant-numeric:tabular-nums}
+.chip.on{background:var(--brand);color:var(--on-brand);border-color:var(--brand)}
+.field{display:flex;flex-direction:column;gap:6px}
+.selectbox{position:relative}
+.selectbox select{appearance:none;-webkit-appearance:none;width:100%;font:600 1.02rem var(--body);padding:14px 16px 14px 48px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.selectbox select:hover{border-color:var(--teal)}
+.selectbox::after{content:"";position:absolute;left:18px;top:50%;width:10px;height:10px;border-left:2.5px solid var(--teal);border-bottom:2.5px solid var(--teal);transform:translateY(-70%) rotate(-45deg);pointer-events:none}
+.countrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.countrow input[type=range]{flex:1;min-width:180px;accent-color:var(--teal);height:28px}
+.countnum{display:flex;align-items:center;gap:8px}
+.countnum input{width:84px;text-align:center;font:700 1.25rem var(--display);padding:8px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-variant-numeric:tabular-nums}
+.ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;direction:ltr}
+.field input{font:inherit;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:.92rem;font-variant-numeric:tabular-nums}
+.progress{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.progress>i{display:block;height:100%;background:var(--teal);border-radius:99px;transition:width .25s}
+.qtext{font-family:var(--display);font-size:1.18rem;font-weight:600;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.opt{display:flex;align-items:center;gap:12px;text-align:right;width:100%;padding:13px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.opt .k{width:30px;height:30px;border-radius:9px;background:var(--surface-2);display:grid;place-items:center;font-weight:700;flex:none;color:var(--muted)}
+.opt:hover:not([disabled]){border-color:var(--brand)}
+.opt.sel{border-color:var(--brand);background:var(--surface-2)}
+.opt.sel .k{background:var(--brand);color:var(--on-brand)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.right .k{background:var(--good);color:var(--on-brand)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{background:var(--bad);color:var(--on-brand)}
+.opt[disabled]{cursor:default}
+.ltr{direction:ltr;unicode-bidi:plaintext}
+.why{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--surface-2);font-size:.95rem}
+.why b{color:var(--teal)}
+.qnav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.star{border:0;background:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:6px;font:inherit;font-size:.9rem;padding:4px}
+.star.on{color:#d39a1a}
+.star.on svg{fill:#d39a1a;stroke:#d39a1a}
+.timer{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.ring{width:150px;height:150px;margin:0 auto}
+.result-top{text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center}
+.pill{display:inline-block;padding:4px 14px;border-radius:99px;font-weight:600;font-size:.9rem}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.mid{background:var(--warn-soft);color:var(--ink)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.rev{border-right:4px solid var(--line);padding-right:14px}
+.rev.ok{border-right-color:var(--good)}
+.rev.no{border-right-color:var(--bad)}
+.rev .q{font-weight:600}
+.rev .a{font-size:.93rem;color:var(--muted)}
+.rev .a b{color:var(--ink)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.94rem}
+th,td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600}
+.empty{text-align:center;color:var(--muted);padding:30px 16px}
+.search{font:inherit;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+details.bq{border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+details.bq summary{cursor:pointer;padding:14px 16px;font-weight:600;list-style:none}
+details.bq summary::-webkit-details-marker{display:none}
+details.bq .body{padding:0 16px 14px;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.ans{color:var(--good);font-weight:600}
+footer{border-top:1px solid var(--line);background:var(--surface);text-align:center;padding-block:22px;color:var(--muted);font-size:.9rem}
+footer strong{color:var(--ink);font-family:var(--display)}
+footer .credit{margin-top:8px;padding-top:12px;border-top:1px dashed var(--line);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap toprow">
+    <button class="brand" id="homeBtn" type="button"><span class="logo"><svg class="i" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></span>منصة الرخصة المهنية</button>
+    <nav class="menu" id="menu" aria-label="القائمة الرئيسية"></nav>
+    <button class="iconbtn" id="themeBtn" type="button" aria-label="تبديل الوضع الليلي"><svg class="i" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/></svg></button>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer>
+  <div class="wrap stack" style="gap:6px">
+    <strong>الطفولة المبكرة بابتدائية الحادية عشر بعد المائة</strong>
+    <span>مديرة المدرسة: فاطمة مسيري</span>
+    <span>تنبيه: جميع الأسئلة تدريبية وتجريبية وليست أسئلة رسمية للاختبار.</span>
+    <span class="credit">تصميم: هدى الشيخي</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- Icons ---------- */
+const I = {
+  home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+  book:'<path d="M12 6c-2-1.5-5-2-8-1.5V19c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V4.5c-3-.5-6 0-8 1.5z"/><path d="M12 6v14.5"/>',
+  test:'<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/><path d="M9 14l2 2 4-4"/>',
+  bank:'<path d="M4 4v16M8 4v16"/><path d="M12 5l4-1 4 16-4 1z"/>',
+  star:'<path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.4 6.5 20.3l1-6.2L3 9.7l6.2-.9z"/>',
+  alert:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>',
+  chart:'<path d="M5 20V10M12 20V4M19 20v-7"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  school:'<path d="M3 21h18"/><path d="M5 21V10l7-5 7 5v11"/><path d="M10 21v-5h4v5"/><circle cx="12" cy="11" r="1.5"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  check:'<path d="M5 12l5 5 9-10"/>',
+  child:'<circle cx="12" cy="5" r="2.5"/><path d="M12 8v6M8 10l4 2 4-2M9 21l3-7 3 7"/>',
+  abc:'<path d="M4 18l4-12 4 12M5.5 14h5"/><path d="M15 6v12h3a3 3 0 000-6h-3"/>',
+  moon:'<path d="M12 3a7 7 0 100 18c-4-2-6-5.5-6-9s2-7 6-9z"/>',
+  calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/>',
+  flask:'<path d="M9 3h6M10 3v6l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3"/><path d="M7 15h10"/>',
+  atom:'<circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="9" ry="3.5"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(120 12 12)"/>',
+  leaf:'<path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15"/><path d="M5 19l8-8"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  pc:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+  brush:'<path d="M14 4l6 6-8 8H6v-6z"/><path d="M4 20l2-2"/>',
+  run:'<circle cx="14" cy="4.5" r="2"/><path d="M8 21l3-6 3 2v5M6 12l3-3 4 1 3 3 3-1"/>',
+  home2:'<path d="M4 10l8-6 8 6v10H4z"/><path d="M9 20v-6h6v6"/>',
+  heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.5-7 10-7 10z"/>',
+  talk:'<path d="M4 5h16v11H9l-5 4z"/>',
+  en:'<path d="M4 6h7M4 12h6M4 18h7M4 6v12"/><path d="M14 18v-8l6 8v-8"/>',
+  star2:'<path d="M12 3l2.5 6H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/>'
+};
+const ic = (n,extra='') => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true" ${extra}>${I[n]}</svg>`;
+
+/* ---------- Question bank (original practice questions) ---------- */
+/* format: [question, [options], correctIndex, explanation] */
+const GENERAL = {id:'general', name:'الاختبار التربوي العام', icon:'book', desc:'التخطيط والتدريس والتقويم وإدارة الصف ونظريات التعلم.', q:[
+['أعلى مستوى في تصنيف بلوم المعدّل للمجال المعرفي هو:',['التذكر','التطبيق','التحليل','الإبداع (الابتكار)'],3,'التصنيف المعدّل يرتّب المستويات: تذكر، فهم، تطبيق، تحليل، تقويم، ثم إبداع في القمة.'],
+['الهدف الرئيس من التقويم التكويني هو:',['إصدار حكم نهائي على الطالبة','تحسين التعلم أثناء عملية التدريس','ترتيب الطالبات حسب الدرجات','قياس الاستعداد قبل بدء الوحدة'],1,'التقويم التكويني مستمر أثناء التعلم، ويقدم تغذية راجعة تساعد على تعديل التدريس.'],
+['تطبّق المعلمة اختبارًا قصيرًا في بداية الوحدة لمعرفة ما تعرفه الطالبات مسبقًا. هذا تقويم:',['ختامي','قبلي (تشخيصي)','تكويني','ذاتي'],1,'التقويم القبلي يحدد الخبرات السابقة قبل بدء التعلم الجديد.'],
+['صاحب نظرية الذكاءات المتعددة هو:',['هوارد جاردنر','جان بياجيه','بي. إف. سكنر','ألبرت باندورا'],0,'قدّم هوارد جاردنر نظرية الذكاءات المتعددة عام 1983.'],
+['مفهوم «منطقة النمو القريبة (المركزية)» يرتبط بالعالِم:',['إريكسون','فيجوتسكي','بلوم','ثورندايك'],1,'فيجوتسكي: المسافة بين ما ينجزه المتعلم وحده وما ينجزه بمساعدة الأكبر خبرة.'],
+['من أبرز رواد التعلم بالاكتشاف:',['جيروم برونر','إيفان بافلوف','جون واطسون','كلارك هل'],0,'برونر دعا إلى أن يكتشف المتعلم المفاهيم والعلاقات بنفسه.'],
+['نظرية الإشراط الإجرائي (التعزيز) ترتبط بـ:',['بافلوف','سكنر','كوهلر','أوزوبل'],1,'سكنر: السلوك المتبوع بتعزيز يزداد احتمال تكراره.'],
+['وفق بياجيه، المرحلة التي يفكر فيها الطفل منطقيًا في الأشياء المحسوسة (نحو 7 إلى 11 سنة) هي:',['الحسية الحركية','ما قبل العمليات','العمليات المحسوسة','العمليات المجردة'],2,'في مرحلة العمليات المحسوسة يكتسب الطفل الاحتفاظ والتصنيف والتسلسل.'],
+['أي الأفعال التالية أنسب لصياغة هدف سلوكي قابل للقياس؟',['تفهم الطالبة','تدرك الطالبة','تعدد الطالبة','تعرف الطالبة'],2,'الفعل «تعدد» سلوك ظاهر يمكن ملاحظته وقياسه، بخلاف تفهم وتدرك.'],
+['العنصر الأساسي الذي يميز التعلم التعاوني عن العمل في مجموعات عادية هو:',['كثرة عدد أفراد المجموعة','الاعتماد الإيجابي المتبادل','المنافسة بين الأفراد','قيام المعلمة بكل العمل'],1,'نجاح الفرد مرتبط بنجاح المجموعة، مع مسؤولية فردية لكل عضو.'],
+['تقدّم المعلمة مهامًّا بمستويات مختلفة لتناسب قدرات الطالبات. هذا يسمى:',['التعليم المتمايز','التعليم المبرمج','التلقين','التعلم الذاتي'],0,'التعليم المتمايز يراعي الفروق الفردية في المحتوى أو العملية أو الناتج.'],
+['أفضل أسلوب للوقاية من مشكلات إدارة الصف هو:',['العقاب الفوري','وضع قواعد واضحة ومتفق عليها منذ بداية العام','تجاهل كل السلوكيات','رفع الصوت باستمرار'],1,'القواعد الواضحة والروتين الثابت يقللان المشكلات قبل حدوثها.'],
+['إزالة مثير غير مرغوب بعد السلوك لزيادة تكراره تسمى:',['تعزيزًا موجبًا','تعزيزًا سالبًا','عقابًا','إطفاءً'],1,'التعزيز السالب يزيد السلوك عبر إزالة شيء منفّر، وليس عقابًا.'],
+['يكون الاختبار «صادقًا» إذا:',['أعطى النتائج نفسها عند إعادته','قاس ما وُضع لقياسه','كان سهلًا على الطالبات','احتوى أسئلة كثيرة'],1,'الصدق: قياس ما صُمّم الاختبار لقياسه. أما الثبات فهو استقرار النتائج.'],
+['إذا أعطى الاختبار النتائج نفسها تقريبًا عند تطبيقه مرة أخرى على المجموعة نفسها فهو اختبار:',['صادق','ثابت','موضوعي','مميِّز'],1,'الثبات يعني اتساق النتائج عند تكرار القياس.'],
+['أداة تقويم تجمع نماذج من أعمال الطالبة عبر فترة زمنية لإظهار تقدمها:',['الاختبار التحصيلي','ملف الإنجاز','بطاقة الحضور','الاختبار الشفهي'],1,'ملف الإنجاز من أدوات التقويم البديل ويعرض نمو الطالبة.'],
+['أداة تحتوي معايير الأداء ومستويات وصفية لكل معيار تسمى:',['قائمة الرصد','سلّم التقدير اللفظي (الروبرك)','الاختبار الموضوعي','السجل القصصي'],1,'الروبرك يصف مستويات الإتقان لكل معيار بوضوح.'],
+['استراتيجية «فكّر - زاوج - شارك» من استراتيجيات:',['المحاضرة','التعلم النشط','التلقين','التعليم الفردي المبرمج'],1,'تجمع التفكير الفردي ثم الحوار الثنائي ثم المشاركة مع الصف.'],
+['أي الأسئلة التالية يثير مستوى تفكير أعلى؟',['ما اسم عاصمة المملكة؟','عدّدي أركان الإسلام.','قارني بين الفصلين مع ذكر سبب تفضيلك لأحدهما.','متى تأسست المدرسة؟'],2,'المقارنة مع التبرير تتطلب تحليلًا وتقويمًا وليست تذكرًا.'],
+['التغذية الراجعة الفعالة تكون:',['عامة ومتأخرة','محددة وقريبة من وقت الأداء ومرتبطة بالهدف','مقتصرة على الدرجة','موجهة للمقارنة بين الطالبات'],1,'كلما كانت محددة وفورية وموجهة للهدف كان أثرها أكبر.'],
+['رغبة الطالبة في التعلم لأنها تستمتع به وتجد فيه معنى تسمى:',['دافعية خارجية','دافعية داخلية','تعزيزًا ماديًا','عقابًا'],1,'الدافعية الداخلية تنبع من المتعلم نفسه لا من مكافأة خارجية.'],
+['أول خطوة في التخطيط للدرس هي:',['اختيار الوسائل','تحديد نواتج التعلم (الأهداف)','إعداد الاختبار','تقسيم المجموعات'],1,'الأهداف توجه اختيار المحتوى والاستراتيجيات وأدوات التقويم.'],
+['من أخلاقيات مهنة التعليم فيما يخص معلومات الطالبة:',['نشرها لزميلات الصف','المحافظة على سريتها','مناقشتها في المجالس العامة','إهمالها'],1,'السرية من أهم مبادئ أخلاقيات المهنة.'],
+['«المنظمات المتقدمة» والتعلم ذو المعنى ترتبط بالعالم:',['أوزوبل','واطسون','ماسلو','جانييه'],0,'أوزوبل: يُربط التعلم الجديد بالبنية المعرفية السابقة عبر منظمات متقدمة.'],
+['وفق هرم ماسلو، الحاجة التي تأتي في قاعدة الهرم هي:',['تحقيق الذات','الحاجات الفسيولوجية','التقدير','الانتماء'],1,'تبدأ الحاجات بالفسيولوجية ثم الأمن ثم الانتماء ثم التقدير ثم تحقيق الذات.']
+]};
+
+const SPECS = [
+{id:'ec', name:'الطفولة المبكرة (رياض الأطفال)', icon:'child', q:[
+['الأساس الذي يقوم عليه التعلم في مرحلة رياض الأطفال هو:',['الحفظ والتلقين','اللعب الهادف','الاختبارات التحريرية','المحاضرة'],1,'اللعب هو الوسيط الطبيعي لتعلم الطفل في هذه المرحلة.'],
+['يُعدّ مؤسس فكرة رياض الأطفال (الكندرجارتن):',['فريدريك فروبل','جون ديوي','ماريا منتسوري','بياجيه'],0,'فروبل أسس أول روضة في ألمانيا في القرن التاسع عشر.'],
+['ترتبط «البيئة المُعدّة» والأدوات الحسية بمنهج:',['منتسوري','سكنر','ريجيو إيميليا فقط','بلوم'],0,'منتسوري ركزت على بيئة منظمة وأدوات حسية يتعلم منها الطفل ذاتيًا.'],
+['من سمات التفكير في مرحلة ما قبل العمليات (2 إلى 7 سنوات):',['التفكير المجرد','التمركز حول الذات','إتقان الاحتفاظ','الاستدلال الافتراضي'],1,'يصعب على الطفل رؤية الأمور من منظور الآخرين.'],
+['يظن الطفل أن الماء ازداد عندما سُكب في كأس أطول. هذا يدل على:',['اكتمال مفهوم الاحتفاظ','عدم اكتمال مفهوم الاحتفاظ','ضعف البصر','صعوبة في النطق'],1,'مفهوم الاحتفاظ لم يكتمل بعد في مرحلة ما قبل العمليات.'],
+['أهم أداة لتقويم طفل الروضة هي:',['الاختبار التحريري','الملاحظة المنظمة','الواجبات المنزلية','الاختبار الشفهي المطوّل'],1,'الملاحظة في المواقف الطبيعية هي الأداة الأنسب لهذه المرحلة.'],
+['من أمثلة المهارات الحركية الدقيقة:',['القفز','الجري','القص بالمقص','الركض حول الساحة'],2,'المهارات الدقيقة تعتمد على العضلات الصغيرة مثل اليد والأصابع.'],
+['قدرة الطفل على تمييز أصوات الكلمات ومقاطعها قبل تعلم القراءة تسمى:',['الوعي الصوتي','الفهم القرائي','الطلاقة','الإملاء'],0,'الوعي الصوتي مؤشر مبكر مهم لنجاح القراءة لاحقًا.'],
+['اللعب التمثيلي (الإيهامي) يدعم بشكل خاص:',['المهارات اللغوية والاجتماعية','الحفظ الآلي','الكتابة الإملائية','العمليات الحسابية المعقدة'],0,'يتقمص الطفل الأدوار فيتحاور ويتعاون ويعبر عن نفسه.'],
+['وفق إريكسون، الأزمة النفسية لطفل 3 إلى 6 سنوات هي:',['الثقة مقابل عدم الثقة','المبادرة مقابل الشعور بالذنب','الهوية مقابل تشتت الدور','الإنجاز مقابل النقص'],1,'في هذا العمر يبادر الطفل ويستكشف، والتشجيع ينمي المبادرة.'],
+['الهدف من «الحلقة» (اللقاء الصباحي) في الروضة:',['معاقبة الأطفال المتأخرين','الحوار الجماعي والتخطيط لليوم','إجراء الاختبارات','الأكل'],1,'تجمع الأطفال للحوار ومشاركة الأفكار والتخطيط للأنشطة.'],
+['الأسلوب الأنسب للتعامل مع سلوك بسيط غير مرغوب لجذب الانتباه:',['التجاهل المخطط مع تعزيز السلوك المرغوب','الصراخ','الحرمان من الطعام','الإحراج أمام الزملاء'],0,'التجاهل يضعف السلوك، وتعزيز البديل يقوي السلوك المرغوب.'],
+['في منهج التعلم الذاتي، يختار الطفل نشاطه بنفسه من خلال:',['الأركان التعليمية','السبورة','الكتاب المدرسي','الاختبار'],0,'الأركان (المكتبة، المنزل، الفن، المكعبات...) تتيح الاختيار والتعلم الذاتي.']
+]},
+{id:'early', name:'الصفوف الأولية', icon:'abc', q:[
+['الطريقة التي تبدأ تعليم القراءة بالحرف وصوته ثم المقطع ثم الكلمة هي:',['الكلية','التركيبية (الجزئية)','القصصية','الجملة'],1,'التركيبية تنتقل من الجزء (الحرف) إلى الكل (الكلمة).'],
+['الطريقة التي تبدأ بالجملة أو الكلمة ثم تحللها إلى حروف هي:',['التركيبية','الصوتية','الكلية (التحليلية)','الأبجدية'],2,'الكلية تبدأ من الكل ذي المعنى ثم تحلله.'],
+['أول المهارات اللغوية اكتسابًا لدى الطفل هي:',['الكتابة','القراءة','الاستماع','التحدث'],2,'يبدأ الطفل بالاستماع ثم التحدث ثم القراءة ثم الكتابة.'],
+['التدرج الصحيح في تدريس المفاهيم الرياضية للصغار:',['مجرد ثم محسوس','محسوس ثم شبه محسوس (صور) ثم مجرد','مجرد فقط','صور فقط'],1,'البدء بالمحسوسات يناسب طريقة تفكير الطفل في هذا العمر.'],
+['قيمة الرقم 5 في العدد 352:',['5','50','500','5000'],1,'الرقم 5 في منزلة العشرات، فقيمته 50.'],
+['يُستدل على صعوبة التعلم عادة عندما:',['يكون ذكاء الطالبة منخفضًا جدًا','يوجد تباعد بين القدرة العقلية والتحصيل الفعلي','تتغيب كثيرًا','يكون لديها إعاقة بصرية'],1,'صعوبة التعلم تظهر لدى طالبة بذكاء عادي أو فوقه مع تحصيل منخفض.'],
+['مدة انتباه طالبة الصفوف الأولية قصيرة، لذا يُفضَّل:',['إطالة الشرح','تنويع الأنشطة وتقسيم الدرس إلى فترات قصيرة','الاقتصار على الكتابة','منع الحركة تمامًا'],1,'التنويع والحركة الموجهة يحافظان على الانتباه.'],
+['الحروف (ب، ت، ث) تتشابه في الرسم وتختلف في:',['عدد النقاط وموضعها','الاتجاه','الطول','الصوت فقط دون الشكل'],0,'التمييز البصري بالنقاط مهارة مهمة في تعليم الحروف.'],
+['حاصل جمع 27 + 15:',['32','42','41','52'],1,'27 + 15 = 42.'],
+['من أنسب استراتيجيات تعليم القيم للصغار:',['المحاضرة','القصة والقدوة','الاختبار التحريري','النسخ'],1,'القصة تجذب انتباه الطفل وتقدم القيمة في موقف محسوس.']
+]},
+{id:'ar', name:'اللغة العربية', icon:'talk', q:[
+['حكم اسم «كان» وأخواتها:',['منصوب','مرفوع','مجرور','مجزوم'],1,'كان ترفع الاسم وتنصب الخبر.'],
+['عمل «إنّ» وأخواتها:',['ترفع الاسم وتنصب الخبر','تنصب الاسم وترفع الخبر','تنصبهما معًا','ترفعهما معًا'],1,'إن وأخواتها تنصب المبتدأ ويسمى اسمها وترفع الخبر.'],
+['علامة نصب جمع المذكر السالم:',['الفتحة','الكسرة','الياء','الألف'],2,'يُنصب ويُجر بالياء، ويُرفع بالواو.'],
+['علامة نصب جمع المؤنث السالم:',['الفتحة','الكسرة','الياء','الألف'],1,'جمع المؤنث السالم يُنصب بالكسرة نيابة عن الفتحة.'],
+['الأفعال الخمسة تُرفع بـ:',['الضمة','ثبوت النون','الواو','الألف'],1,'مثل: يكتبون، تكتبين؛ رفعها بثبوت النون.'],
+['همزة كلمة «ابن» همزة:',['قطع','وصل','متوسطة','متطرفة'],1,'ابن من الأسماء العشرة التي تبدأ بهمزة وصل.'],
+['الجمع بين الكلمة وضدها في الكلام مثل (الليل والنهار) يسمى:',['الجناس','الطباق','السجع','التورية'],1,'الطباق من المحسنات البديعية المعنوية.'],
+['أركان التشبيه:',['ثلاثة','أربعة: المشبه والمشبه به والأداة ووجه الشبه','ركنان فقط','خمسة'],1,'الركنان الأساسيان المشبه والمشبه به، والأداة ووجه الشبه قد يُحذفان.'],
+['جمع التكسير لكلمة «كتاب»:',['كتابات','كُتُب','كاتبون','مكاتب'],1,'كُتُب جمع تكسير لكتاب.'],
+['إعراب «الطالبةُ» في جملة: نجحتِ الطالبةُ.',['مبتدأ','فاعل مرفوع','مفعول به','خبر'],1,'جاءت بعد فعل وقامت به، فهي فاعل مرفوع بالضمة.']
+]},
+{id:'isl', name:'الدراسات الإسلامية والقرآن الكريم', icon:'moon', q:[
+['عدد سور القرآن الكريم:',['110','114','120','112'],1,'القرآن الكريم 114 سورة.'],
+['أطول سور القرآن الكريم:',['آل عمران','النساء','البقرة','المائدة'],2,'سورة البقرة أطول السور.'],
+['أول ما نزل من القرآن الكريم:',['سورة الفاتحة','أول سورة العلق «اقرأ»','سورة المدثر','آية الكرسي'],1,'أول ما نزل قوله تعالى: اقرأ باسم ربك الذي خلق.'],
+['أركان الإيمان عددها:',['خمسة','ستة','أربعة','سبعة'],1,'الإيمان بالله وملائكته وكتبه ورسله واليوم الآخر والقدر.'],
+['أقسام التوحيد:',['قسمان','ثلاثة: الربوبية والألوهية والأسماء والصفات','أربعة','خمسة'],1,'هذا التقسيم الثلاثي المعروف عند أهل العلم.'],
+['مقدار زكاة النقود إذا بلغت النصاب وحال عليها الحول:',['10٪','5٪','2.5٪ (ربع العشر)','20٪'],2,'زكاة النقود ربع العشر.'],
+['عدد حروف الإظهار الحلقي:',['أربعة','ستة','خمسة','ثمانية'],1,'الهمزة والهاء والعين والحاء والغين والخاء.'],
+['عدد ركعات صلاة الجمعة:',['ركعتان','أربع','ثلاث','ركعة'],0,'صلاة الجمعة ركعتان تسبقهما خطبتان.'],
+['أصح كتاب بعد كتاب الله عند جمهور العلماء:',['سنن الترمذي','صحيح البخاري','موطأ مالك','مسند أحمد'],1,'صحيح البخاري ثم صحيح مسلم.'],
+['حكم النون الساكنة إذا جاء بعدها حرف الباء:',['إظهار','إدغام','إقلاب','إخفاء'],2,'تُقلب النون الساكنة أو التنوين ميمًا مخفاة عند الباء.']
+]},
+{id:'math', name:'الرياضيات', icon:'calc', q:[
+['حل المعادلة 3س + 5 = 20:',['س = 3','س = 5','س = 15','س = 25/3'],1,'3س = 15 إذن س = 5.'],
+['مجموع قياسات زوايا المثلث الداخلية:',['90°','180°','270°','360°'],1,'مجموع زوايا أي مثلث 180°.'],
+['مساحة الدائرة التي نصف قطرها نق:',['2 ط نق','ط نق²','ط ق','نق²'],1,'المساحة = ط × نق².'],
+['الجذر التربيعي للعدد 144:',['11','12','14','16'],1,'12 × 12 = 144.'],
+['ميل المستقيم المار بالنقطتين (1، 2) و (3، 8):',['2','3','4','6'],1,'الميل = (8 − 2) ÷ (3 − 1) = 3.'],
+['25٪ من 80 تساوي:',['15','20','25','32'],1,'80 × 0.25 = 20.'],
+['أي الأعداد التالية عدد أولي؟',['9','15','17','21'],2,'17 لا يقبل القسمة إلا على 1 وعلى نفسه.'],
+['المتوسط الحسابي للأعداد 4، 6، 8، 10:',['6','7','8','28'],1,'المجموع 28 ÷ 4 = 7.'],
+['المضاعف المشترك الأصغر للعددين 4 و 6:',['2','12','24','10'],1,'أصغر عدد يقبل القسمة على 4 و 6 هو 12.'],
+['مثلث قائم ضلعاه القائمان 3 سم و 4 سم، طول الوتر:',['5 سم','6 سم','7 سم','12 سم'],0,'حسب فيثاغورس: 9 + 16 = 25، والجذر 5.']
+]},
+{id:'sci', name:'العلوم', icon:'leaf', q:[
+['الوحدة الأساسية في بناء الكائن الحي:',['النسيج','الخلية','العضو','الجهاز'],1,'الخلية هي أصغر وحدة حية.'],
+['نواتج عملية البناء الضوئي:',['ثاني أكسيد الكربون والماء','الجلوكوز والأكسجين','النيتروجين','الأكسجين فقط'],1,'يصنع النبات الجلوكوز ويطلق الأكسجين.'],
+['درجة غليان الماء النقي عند مستوى سطح البحر:',['0°س','50°س','100°س','212°س'],2,'يغلي الماء عند 100°س تحت الضغط الجوي المعتاد.'],
+['أقرب الكواكب إلى الشمس:',['الزهرة','الأرض','عطارد','المريخ'],2,'عطارد هو الكوكب الأول من الشمس.'],
+['حالة المادة التي لها حجم ثابت وشكل متغير:',['الصلبة','السائلة','الغازية','البلازما'],1,'السائل يأخذ شكل الإناء مع ثبات حجمه.'],
+['المصدر الأساسي للطاقة في السلاسل الغذائية:',['التربة','الشمس','الماء','الحيوانات'],1,'المنتجات تحوّل طاقة الشمس إلى غذاء.'],
+['العضو المسؤول عن ضخ الدم في الجسم:',['الرئتان','الكبد','القلب','الكلية'],2,'القلب مضخة الجهاز الدوري.'],
+['تحوّل المادة من الحالة السائلة إلى الغازية:',['التكثف','التجمد','التبخر','الانصهار'],2,'التبخر يحتاج إلى طاقة حرارية.'],
+['أي مما يلي من الفقاريات؟',['الدودة','الأسماك','الإسفنج','قنديل البحر'],1,'الأسماك لها عمود فقري.'],
+['المادة التي يجذبها المغناطيس:',['الخشب','البلاستيك','الحديد','الزجاج'],2,'الحديد مادة مغناطيسية.']
+]},
+{id:'phy', name:'الفيزياء', icon:'atom', q:[
+['وحدة قياس القوة في النظام الدولي:',['الجول','النيوتن','الواط','الباسكال'],1,'النيوتن = كجم·م/ث².'],
+['جسم كتلته 2 كجم يتسارع بمقدار 3 م/ث². القوة المحصلة المؤثرة فيه:',['1.5 نيوتن','5 نيوتن','6 نيوتن','9 نيوتن'],2,'ق = ك × ت = 2 × 3 = 6 نيوتن.'],
+['سرعة الضوء في الفراغ تقريبًا:',['3 × 10⁸ م/ث','3 × 10⁵ م/ث','340 م/ث','3 × 10⁶ م/ث'],0,'نحو 300 ألف كيلومتر في الثانية.'],
+['تيار شدته 2 أمبير يمر في مقاومة 5 أوم. فرق الجهد:',['2.5 فولت','7 فولت','10 فولت','0.4 فولت'],2,'قانون أوم: جـ = ت × م = 10 فولت.'],
+['وحدة قياس الشغل والطاقة:',['الواط','الجول','النيوتن','الأمبير'],1,'الجول = نيوتن × متر.'],
+['الطاقة الحركية لجسم كتلته 2 كجم وسرعته 3 م/ث:',['3 جول','6 جول','9 جول','18 جول'],2,'ط ح = ½ × 2 × 3² = 9 جول.'],
+['لا ينتقل الصوت في:',['الهواء','الماء','الفراغ','الحديد'],2,'الصوت موجة ميكانيكية تحتاج إلى وسط.'],
+['قانون نيوتن الأول يُعرف بقانون:',['القصور الذاتي','الفعل ورد الفعل','الجذب العام','حفظ الطاقة'],0,'الجسم يبقى على حاله ما لم تؤثر فيه قوة محصلة.'],
+['وحدة قياس القدرة:',['الجول','الواط','الفولت','الهيرتز'],1,'الواط = جول/ثانية.'],
+['تسارع الجاذبية الأرضية تقريبًا:',['1.6 م/ث²','9.8 م/ث²','98 م/ث²','0.98 م/ث²'],1,'قيمته عند سطح الأرض نحو 9.8 م/ث².']
+]},
+{id:'chem', name:'الكيمياء', icon:'flask', q:[
+['العدد الذري للعنصر يساوي عدد:',['النيوترونات','البروتونات','النيوترونات والبروتونات','المدارات'],1,'العدد الذري = عدد البروتونات في النواة.'],
+['الرقم الهيدروجيني pH للمحلول المتعادل عند 25°س:',['0','7','14','1'],1,'أقل من 7 حمضي وأكبر من 7 قاعدي.'],
+['الرابطة في كلوريد الصوديوم NaCl رابطة:',['تساهمية','أيونية','فلزية','هيدروجينية'],1,'تنشأ بانتقال إلكترون من الصوديوم إلى الكلور.'],
+['الكتلة المولية للماء H₂O تقريبًا:',['16 جم/مول','18 جم/مول','20 جم/مول','10 جم/مول'],1,'(2 × 1) + 16 = 18.'],
+['عدد أفوجادرو:',['6.02 × 10²³','3 × 10⁸','9.8','1.6 × 10⁻¹⁹'],0,'عدد الجسيمات في مول واحد من المادة.'],
+['عملية الأكسدة تعني:',['اكتساب إلكترونات','فقد إلكترونات','اكتساب بروتونات','فقد نيوترونات'],1,'الأكسدة فقد، والاختزال اكتساب.'],
+['أي العناصر التالية من الغازات النبيلة؟',['الأكسجين','الهيليوم','النيتروجين','الكلور'],1,'الهيليوم في المجموعة 18 وغلافه الخارجي مكتمل.'],
+['ترتب العناصر في الجدول الدوري الحديث حسب:',['الكتلة الذرية','العدد الذري','الكثافة','تاريخ الاكتشاف'],1,'رتبها موزلي حسب العدد الذري.'],
+['الحمض يحوّل لون ورقة تباع الشمس الزرقاء إلى:',['الأحمر','الأخضر','الأصفر','لا يغير لونها'],0,'الأحماض تحول تباع الشمس الأزرق إلى أحمر.'],
+['الصيغة الكيميائية لثاني أكسيد الكربون:',['CO','CO₂','C₂O','CH₄'],1,'ذرة كربون وذرتا أكسجين.']
+]},
+{id:'bio', name:'الأحياء', icon:'leaf', q:[
+['العضية المسؤولة عن إنتاج معظم طاقة الخلية (ATP):',['النواة','الميتوكوندريا','جهاز جولجي','الرايبوسوم'],1,'الميتوكوندريا موقع التنفس الخلوي الهوائي.'],
+['عدد الكروموسومات في الخلية الجسمية للإنسان:',['23','44','46','48'],2,'23 زوجًا = 46 كروموسومًا.'],
+['ينتج عن الانقسام المنصف (الاختزالي):',['خلايا جسمية متماثلة','أمشاج أحادية المجموعة الكروموسومية','خلايا ثنائية فقط','خلية واحدة'],1,'يختزل العدد الكروموسومي إلى النصف لتكوين الأمشاج.'],
+['في جزيء DNA ترتبط القاعدة الأدينين (A) بـ:',['الجوانين','السايتوسين','الثايمين','اليوراسيل'],2,'A مع T، و G مع C.'],
+['يُلقّب بأبي علم الوراثة:',['داروين','مندل','واطسون','باستير'],1,'مندل أجرى تجاربه على نبات البازلاء.'],
+['البلاستيدات الخضراء توجد في:',['الخلايا الحيوانية','الخلايا النباتية','البكتيريا كلها','الفطريات'],1,'هي موقع البناء الضوئي في النبات.'],
+['الإنزيمات في الغالب مواد:',['دهنية','بروتينية','كربوهيدراتية','معدنية'],1,'معظم الإنزيمات بروتينات تسرّع التفاعلات.'],
+['الخلايا المسؤولة عن الدفاع عن الجسم ضد الميكروبات:',['خلايا الدم الحمراء','خلايا الدم البيضاء','الصفائح الدموية','الخلايا العصبية'],1,'كريات الدم البيضاء جزء من جهاز المناعة.'],
+['الوحدة البنائية لجزيء DNA:',['الحمض الأميني','النيوكليوتيد','الجلوكوز','الحمض الدهني'],1,'كل نيوكليوتيد: سكر وفوسفات وقاعدة نيتروجينية.'],
+['من نواتج التنفس الخلوي الهوائي:',['الأكسجين والجلوكوز','ثاني أكسيد الكربون والماء والطاقة','النشا','الكلوروفيل'],1,'يتأكسد الجلوكوز فينتج CO₂ وماء وطاقة.']
+]},
+{id:'en', name:'اللغة الإنجليزية', icon:'en', q:[
+['The past tense of "go" is:',['goed','went','gone','going'],1,'"go" is irregular: go – went – gone.'],
+['She ___ to school every day.',['go','goes','going','gone'],1,'Present simple with he/she/it adds -s/-es.'],
+['The plural of "child" is:',['childs','childes','children','childrens'],2,'An irregular plural.'],
+['Choose the synonym of "happy":',['sad','glad','angry','tired'],1,'"Glad" means pleased or happy.'],
+['Choose the opposite of "ancient":',['old','modern','early','past'],1,'Ancient means very old; modern is its opposite.'],
+['"They built the house." In the passive voice:',['The house built.','The house was built.','The house is building.','The house were built.'],1,'Passive past: was/were + past participle.'],
+['___ hour',['a','an','the a','no article'],1,'"Hour" starts with a vowel sound, so we use "an".'],
+['The comparative form of "good" is:',['gooder','more good','better','best'],2,'good – better – best.'],
+['Which sentence is in the present perfect?',['I finished.','I have finished.','I am finishing.','I will finish.'],1,'Present perfect: have/has + past participle.'],
+['A teaching approach that focuses on real communication in the classroom:',['Grammar-Translation','Communicative Language Teaching (CLT)','Audio-Lingual drills only','Rote memorization'],1,'CLT centers on meaningful interaction and communicative competence.']
+]},
+{id:'soc', name:'الدراسات الاجتماعية', icon:'globe', q:[
+['مؤسس المملكة العربية السعودية الحديثة:',['الملك سعود','الملك عبدالعزيز بن عبدالرحمن آل سعود','الملك فيصل','الإمام محمد بن سعود'],1,'وحّد الملك عبدالعزيز المملكة وأعلن قيامها.'],
+['أُعلن توحيد المملكة العربية السعودية عام:',['1319هـ','1351هـ (1932م)','1373هـ','1400هـ'],1,'صدر الأمر بتوحيد البلاد باسم المملكة العربية السعودية عام 1351هـ.'],
+['يُحتفى بيوم التأسيس في:',['23 سبتمبر','22 فبراير','1 محرم','18 ديسمبر'],1,'يوم التأسيس يستذكر قيام الدولة السعودية الأولى عام 1727م.'],
+['أكبر قارات العالم مساحة:',['أفريقيا','آسيا','أوروبا','أمريكا الشمالية'],1,'آسيا أكبر القارات مساحة وسكانًا.'],
+['أكبر المحيطات مساحة:',['الأطلسي','الهندي','الهادئ','المتجمد الشمالي'],2,'المحيط الهادئ أكبرها.'],
+['خط العرض 0° يسمى:',['مدار السرطان','خط الاستواء','خط جرينتش','مدار الجدي'],1,'خط الاستواء يقسم الأرض إلى نصفين شمالي وجنوبي.'],
+['البحر الذي يحد المملكة من الغرب:',['الخليج العربي','البحر الأحمر','البحر المتوسط','بحر العرب'],1,'تطل عليه مدن مثل جدة وينبع.'],
+['أكبر صحراء رملية متصلة في شبه الجزيرة العربية:',['النفود','الدهناء','الربع الخالي','الجافورة'],2,'الربع الخالي في جنوب المملكة.'],
+['خط الطول 0° يسمى:',['خط الاستواء','خط جرينتش','مدار السرطان','الدائرة القطبية'],1,'يمر بمدينة جرينتش قرب لندن.'],
+['عاصمة المملكة العربية السعودية:',['جدة','مكة المكرمة','الرياض','الدمام'],2,'الرياض العاصمة الإدارية والسياسية.']
+]},
+{id:'cs', name:'الحاسب والمهارات الرقمية', icon:'pc', q:[
+['الجزء المسؤول عن تنفيذ التعليمات ومعالجة البيانات في الحاسب:',['الشاشة','وحدة المعالجة المركزية CPU','القرص الصلب','لوحة المفاتيح'],1,'المعالج «عقل» الحاسب.'],
+['الذاكرة التي تفقد محتواها عند انقطاع الكهرباء:',['ROM','RAM','القرص الصلب','الذاكرة الفلاشية'],1,'RAM ذاكرة متطايرة.'],
+['البايت الواحد يساوي:',['4 بت','8 بت','16 بت','1024 بت'],1,'البايت 8 بتات.'],
+['اللغة المستخدمة في بناء هيكل صفحات الويب:',['Python','HTML','Excel','SQL'],1,'HTML لغة ترميز لهيكل الصفحة.'],
+['العدد الثنائي 1010 يساوي في النظام العشري:',['8','10','12','5'],1,'8 + 0 + 2 + 0 = 10.'],
+['خطوات مرتبة ومحددة لحل مشكلة تسمى:',['البرنامج','الخوارزمية','الملف','الشبكة'],1,'الخوارزمية تسبق كتابة البرنامج.'],
+['محاولة الحصول على بيانات المستخدم برسائل مزيفة تبدو موثوقة:',['التصيد الاحتيالي','التحديث','الأرشفة','الضغط'],0,'يُعرف بالتصيد (Phishing).'],
+['من وحدات الإدخال:',['الطابعة','السماعات','لوحة المفاتيح','الشاشة'],2,'لوحة المفاتيح تُدخل البيانات إلى الحاسب.'],
+['الجدار الناري (Firewall) يُستخدم لـ:',['تسريع الحاسب','حماية الشبكة من الاتصالات غير المصرح بها','طباعة الملفات','تحرير الصور'],1,'يراقب حركة الشبكة ويمنع غير المسموح.'],
+['أصغر وحدة لتخزين البيانات في الحاسب:',['البايت','البت','الكيلوبايت','الميجابايت'],1,'البت قيمته 0 أو 1.']
+]},
+{id:'art', name:'التربية الفنية', icon:'brush', q:[
+['الألوان الأساسية في الرسم التقليدي:',['الأحمر والأصفر والأزرق','الأخضر والبرتقالي والبنفسجي','الأسود والأبيض','الأحمر والأخضر'],0,'لا يمكن الحصول عليها بخلط ألوان أخرى.'],
+['ناتج خلط الأحمر مع الأصفر:',['الأخضر','البرتقالي','البنفسجي','البني'],1,'البرتقالي لون ثانوي.'],
+['اللون المكمّل (المتضاد) للون الأحمر:',['الأزرق','الأخضر','الأصفر','البرتقالي'],1,'يقع مقابله في دائرة الألوان.'],
+['من الألوان الباردة:',['الأحمر','البرتقالي','الأزرق','الأصفر'],2,'الأزرق والأخضر والبنفسجي ألوان باردة.'],
+['أبسط عناصر التصميم وبداية الخط:',['النقطة','اللون','الملمس','الفراغ'],0,'تتحرك النقطة فتكوّن الخط.'],
+['من أقدم أنواع الخط العربي ويتميز بالزوايا الهندسية:',['الرقعة','الكوفي','الديواني','الثلث'],1,'الخط الكوفي من أقدم الخطوط العربية.'],
+['فن تكوين عمل فني بلصق قصاصات من مواد مختلفة:',['الكولاج','النحت','الخزف','الطباعة'],0,'الكولاج يعتمد على اللصق.'],
+['الإيهام بالعمق والبعد الثالث على سطح مستوٍ يتحقق بـ:',['المنظور','التكرار','التماثل','الإيقاع'],0,'المنظور يجعل الأشياء البعيدة أصغر.']
+]},
+{id:'pe', name:'التربية البدنية', icon:'run', q:[
+['عدد لاعبي الفريق الواحد داخل ملعب كرة السلة:',['5','6','7','11'],0,'خمسة لاعبين لكل فريق.'],
+['عدد لاعبي الفريق الواحد داخل ملعب الكرة الطائرة:',['5','6','9','11'],1,'ستة لاعبين لكل فريق.'],
+['الهدف الأساسي من الإحماء قبل التمرين:',['إرهاق العضلات','تهيئة الجسم وتقليل خطر الإصابة','زيادة الوزن','الاسترخاء التام'],1,'يرفع حرارة العضلات ويهيئ المفاصل.'],
+['الإسعاف الأولي لالتواء الكاحل يشمل:',['التدليك القوي فورًا','الراحة والثلج والضغط والرفع','الماء الساخن','مواصلة اللعب'],1,'تُعرف اختصارًا بـ RICE.'],
+['مدى الحركة الممكن في المفصل يعبّر عن عنصر:',['القوة','المرونة','السرعة','التحمل'],1,'المرونة من عناصر اللياقة المرتبطة بالصحة.'],
+['المعدل الطبيعي لنبض القلب للبالغ في الراحة:',['30 إلى 50 نبضة/دقيقة','60 إلى 100 نبضة/دقيقة','120 إلى 150 نبضة/دقيقة','أكثر من 160'],1,'يتراوح عادة بين 60 و 100.'],
+['من أمثلة تمارين التحمل الدوري التنفسي:',['رفع الأثقال لتكرار واحد','الجري لمسافات طويلة بسرعة معتدلة','الإطالة الثابتة','الوثب العالي'],1,'نشاط هوائي مستمر يقوي القلب والرئتين.'],
+['عدد لاعبي فريق كرة القدم داخل الملعب:',['9','10','11','12'],2,'أحد عشر لاعبًا بينهم حارس المرمى.']
+]},
+{id:'fam', name:'التربية الأسرية والمهارات الحياتية', icon:'home2', q:[
+['فيتامين يساعد الجسم على امتصاص الكالسيوم وتصنعه البشرة بالتعرض للشمس:',['فيتامين أ','فيتامين ج','فيتامين د','فيتامين ك'],2,'فيتامين د مهم لصحة العظام.'],
+['نقص فيتامين ج (C) يسبب مرض:',['الكساح','الإسقربوط','العشى الليلي','فقر الدم'],1,'من أعراضه نزف اللثة.'],
+['نقص عنصر الحديد يؤدي غالبًا إلى:',['فقر الدم','هشاشة الأسنان','السمنة','ضعف البصر'],0,'الحديد ضروري لتكوين الهيموجلوبين.'],
+['الوظيفة الأساسية للبروتينات في الغذاء:',['إمداد الجسم بالطاقة فقط','بناء الأنسجة وتجديدها','تنظيم حرارة الجسم فقط','لا فائدة لها'],1,'تُعد مواد بناء للجسم.'],
+['من أفضل مصادر الكالسيوم:',['الحليب ومشتقاته','السكر','الزيوت','الخبز الأبيض'],0,'الحليب ومشتقاته غنية بالكالسيوم.'],
+['المدة الموصى بها لغسل اليدين بالماء والصابون:',['5 ثوانٍ','20 ثانية على الأقل','دقيقتان','ثانية واحدة'],1,'20 ثانية كافية لإزالة معظم الجراثيم.'],
+['الطريقة الصحيحة لإذابة اللحوم المجمدة:',['تركها خارج الثلاجة طوال اليوم','نقلها إلى الثلاجة لتذوب تدريجيًا','وضعها في الشمس','غمرها في ماء ساخن ساعات'],1,'تبقى في درجة حرارة آمنة تمنع نمو البكتيريا.'],
+['من مبادئ إدارة الميزانية الأسرية:',['إنفاق الدخل كله','تخصيص جزء من الدخل للادخار','الاقتراض الدائم','عدم التخطيط'],1,'الادخار يحمي الأسرة من الطوارئ.']
+]},
+{id:'sped', name:'التربية الخاصة', icon:'heart', q:[
+['الخطة التي تُعدّ لكل طالبة من ذوي الإعاقة وتحدد أهدافها وخدماتها:',['الخطة الفصلية','الخطة التربوية الفردية','الخطة اليومية','الخطة الإدارية'],1,'تُعرف بـ IEP ويشارك فيها فريق متعدد التخصصات.'],
+['طريقة الكتابة والقراءة باللمس للمكفوفين:',['لغة الإشارة','برايل','الهجاء الإصبعي','الصور'],1,'نظام برايل يعتمد على نقاط بارزة.'],
+['الصعوبة المحددة في القراءة تسمى:',['عسر الحساب','عسر القراءة (الديسلكسيا)','عسر الكتابة','التأتأة'],1,'الديسلكسيا من أشهر صعوبات التعلم.'],
+['الصعوبة المحددة في الحساب تسمى:',['الديسكالكوليا','الديسجرافيا','الأفيزيا','الديسلكسيا'],0,'عسر الحساب.'],
+['اضطراب يتميز بصعوبات في التواصل والتفاعل الاجتماعي وأنماط سلوك متكررة:',['اضطراب طيف التوحد','الإعاقة البصرية','صعوبة الكتابة','ضعف السمع'],0,'من السمات الأساسية لاضطراب طيف التوحد.'],
+['تقسيم المهارة المعقدة إلى خطوات صغيرة متسلسلة يسمى:',['تحليل المهمة','التعميم','الإطفاء','النمذجة'],0,'يسهّل تعليم المهارات خطوة بخطوة.'],
+['مبدأ تعليم الطالبة ذات الإعاقة في أقرب بيئة إلى الفصل العادي يسمى:',['العزل','البيئة الأقل تقييدًا','التعليم المنزلي فقط','التصنيف'],1,'يرتبط بمبدأ الدمج.'],
+['اضطراب يتسم بتشتت الانتباه والاندفاعية وفرط الحركة يُختصر بـ:',['ADHD','IEP','ABA','IQ'],0,'اضطراب فرط الحركة وتشتت الانتباه.'],
+['منهج يعتمد مبادئ التعلم السلوكي لتعديل السلوك وتعليم المهارات:',['تحليل السلوك التطبيقي ABA','منتسوري','التعلم بالاكتشاف','المحاضرة'],0,'يُستخدم كثيرًا مع اضطراب طيف التوحد.'],
+['وسيلة التواصل البصرية الحركية للصم:',['برايل','لغة الإشارة','العصا البيضاء','الكتب الصوتية'],1,'لغة الإشارة لغة كاملة لها قواعدها.']
+]},
+{id:'guid', name:'التوجيه والإرشاد الطلابي', icon:'user', q:[
+['يهدف الإرشاد الوقائي إلى:',['علاج المشكلة بعد وقوعها فقط','منع حدوث المشكلات قبل وقوعها','معاقبة الطالبة','إصدار التقارير'],1,'يعمل على تحصين الطالبات بالتوعية المبكرة.'],
+['من أهم مبادئ العملية الإرشادية:',['نشر معلومات الطالبة','السرية','إجبار الطالبة على الحل','إصدار الأحكام'],1,'السرية أساس الثقة بين المرشدة والطالبة.'],
+['دراسة شاملة ومعمقة لحالة طالبة من جوانبها المختلفة تسمى:',['دراسة الحالة','الاختبار التحصيلي','المقابلة العابرة','الإحصاء'],0,'تجمع معلومات أسرية وصحية وتحصيلية واجتماعية.'],
+['الإصغاء الفعال يعني:',['مقاطعة الطالبة للتوجيه','الاستماع باهتمام وإظهار التفهم','الانشغال بالكتابة','تقديم النصيحة مباشرة'],1,'يشمل التواصل البصري وإعادة صياغة ما تقوله الطالبة.'],
+['التنمر سلوك:',['يحدث مرة واحدة عرضًا','عدواني متكرر يتضمن اختلالًا في القوة','مزاح مقبول','خلاف عادي بين صديقتين'],1,'التكرار واختلال القوة من سماته الأساسية.'],
+['عندما تتجاوز المشكلة إمكانات المرشدة الطلابية، يكون الإجراء المناسب:',['تجاهلها','تحويلها إلى الجهة المتخصصة','إبلاغ الطالبات الأخريات','حلها بالعقاب'],1,'التحويل للمختص يحقق مصلحة الطالبة.'],
+['الإرشاد الذي يجمع عدة طالبات لديهن مشكلات متشابهة في جلسات مشتركة:',['الإرشاد الفردي','الإرشاد الجمعي','الإرشاد التحصيلي','الإرشاد المهني'],1,'يستفيد من التفاعل وتبادل الخبرات بين أفراد المجموعة.'],
+['أنسب ما تفعله المعلمة عند ملاحظة تغير مفاجئ في سلوك طالبة وانعزالها:',['تجاهل الأمر','التحدث معها بهدوء وإشعار المرشدة','توبيخها أمام زميلاتها','خصم درجاتها'],1,'الاكتشاف المبكر والتعاون مع المرشدة يحميان الطالبة.']
+]}
+];
+const ADD = {
+general:[
+['شرحت المعلمة مفهومًا ثم لاحظت أن نصف الطالبات لم يفهمنه. الإجراء الأنسب:',['الانتقال للدرس التالي','إعادة التدريس باستراتيجية مختلفة','تكليفهن بواجب إضافي فقط','إعطاؤهن اختبارًا فوريًا'],1,'نتائج التقويم التكويني تُستخدم لتعديل التدريس لا لتجاوزه.'],
+['التعلم بالملاحظة والقدوة (التعلم الاجتماعي) يرتبط بالعالم:',['ألبرت باندورا','جان بياجيه','إدوارد ثورندايك','أبراهام ماسلو'],0,'باندورا: يتعلم الفرد بملاحظة سلوك الآخرين ونتائجه.'],
+['الاختبار محكي المرجع يقارن أداء الطالبة بـ:',['أداء زميلاتها','معيار إتقان محدد مسبقًا','متوسط الصف','أداء العام الماضي'],1,'يحدد هل أتقنت الطالبة الهدف بغض النظر عن غيرها.'],
+['الاختبار معياري المرجع يفسر درجة الطالبة بمقارنتها بـ:',['أداء المجموعة','الهدف التعليمي فقط','درجة النجاح الثابتة','رأي المعلمة'],0,'يحدد موقع الطالبة بالنسبة لمجموعتها.'],
+['بعد طرح السؤال على الصف، يُفضّل أن تنتظر المعلمة قبل اختيار المجيبة:',['لا تنتظر إطلاقًا','من 3 إلى 5 ثوانٍ','دقيقة كاملة','حتى ترفع جميع الطالبات أيديهن'],1,'وقت الانتظار يزيد عدد المشاركات وجودة الإجابات.'],
+['التعلم القائم على المشروعات يتميز بأن الطالبات:',['يحفظن المعلومات للاختبار','يعملن على مشكلة حقيقية لإنتاج منتج نهائي','يستمعن لمحاضرة طويلة','يحللن أسئلة اختيار من متعدد'],1,'يربط التعلم بالواقع وينمي مهارات البحث والتعاون.'],
+['في «الصف المقلوب» تشاهد الطالبات الشرح:',['داخل الصف ويطبقن في المنزل','في المنزل، ويُخصص وقت الصف للتطبيق والنقاش','لا يوجد شرح','في نهاية الفصل الدراسي'],1,'يُستثمر وقت الحصة في الأنشطة والتفاعل.'],
+['قدرة السؤال على التفريق بين الطالبات مرتفعات التحصيل ومنخفضاته تسمى:',['معامل الصعوبة','معامل التمييز','الثبات','الموضوعية'],1,'السؤال الجيد يجيب عنه المرتفعات أكثر من المنخفضات.'],
+['تكتب المعلمة وصفًا موضوعيًا لموقف سلوكي محدد لاحظته على طالبة. هذه الأداة هي:',['السجل القصصي','الاختبار المقالي','الاستبانة','ملف الإنجاز'],0,'السجل القصصي يوثق مواقف سلوكية كما حدثت.'],
+['أول خطوة في أسلوب حل المشكلات:',['جمع البيانات','الشعور بالمشكلة وتحديدها','اختبار الحلول','التعميم'],1,'لا يمكن حل مشكلة قبل تحديدها بوضوح.'],
+['التعلم الذي يجمع بين التعليم الحضوري والتعليم الإلكتروني يسمى:',['التعلم المدمج','التعلم الفردي','التعلم المبرمج','التعلم بالمراسلة'],0,'يستفيد من مزايا النمطين معًا.'],
+['طالبة تتحدث مع زميلتها أثناء الشرح. الإجراء الأول الأنسب:',['طردها من الصف','تلميح غير لفظي أو الاقتراب من مكانها','خصم درجاتها مباشرة','توبيخها أمام الصف'],1,'أبسط تدخل يوقف السلوك دون قطع الدرس.'],
+['أداة بصرية تنظم المفاهيم وتوضح العلاقات بينها:',['خريطة المفاهيم','الجدول المدرسي','بطاقة الحضور','سجل الدرجات'],0,'تساعد على الفهم والربط بين المعلومات.'],
+['عندما تقيّم الطالبة عملها بنفسها وفق معايير واضحة فهذا:',['تقويم الأقران','تقويم ذاتي','تقويم ختامي','تقويم قبلي'],1,'ينمي مهارات ما وراء المعرفة والمسؤولية.'],
+['تقديم معلومات كثيرة دفعة واحدة يربك المتعلمة لأن:',['الذاكرة طويلة المدى محدودة','الذاكرة العاملة محدودة السعة','الانتباه غير مهم','الحواس لا تستقبل المعلومات'],1,'نظرية الحمل المعرفي توصي بتقسيم المحتوى.']
+],
+ec:[
+['يرى منهج «ريجيو إيميليا» أن البيئة الصفية هي:',['مكان للانضباط فقط','المعلم الثالث','غير مؤثرة','مخصصة للكبار'],1,'البيئة الغنية المنظمة تحفز الاستكشاف والتعلم.'],
+['من أمثلة المهارات الحركية الكبرى:',['التلوين','القفز على قدمين','إدخال الخرز في خيط','الإمساك بالقلم'],1,'تعتمد على العضلات الكبيرة في الجسم.'],
+['المرحلة الأولى في تطور رسوم الأطفال حسب لونفيلد هي:',['المرحلة الواقعية','مرحلة التخطيط (الشخبطة)','مرحلة المدرك الشكلي','مرحلة الاستدلال'],1,'تبدأ نحو سن الثانية بخطوط عشوائية ثم منظمة.'],
+['قدرة الطفل على مطابقة كل شيء برقم واحد عند العد تسمى:',['التقابل واحد لواحد','الحفظ الآلي للأعداد','الجمع','الترتيب التنازلي'],0,'أساس العد ذي المعنى.'],
+['فرز الطفل للمكعبات حسب لونها أو شكلها مهارة:',['التصنيف','الطرح','القراءة','القياس'],0,'التصنيف من المهارات الرياضية والعلمية المبكرة.'],
+['طفلان يلعبان بجانب بعضهما بالألعاب نفسها دون تفاعل. هذا حسب بارتن:',['اللعب التعاوني','اللعب المتوازي','اللعب الانفرادي','اللعب الترابطي'],1,'مرحلة شائعة قبل اللعب التعاوني.'],
+['طفل يبكي بشدة عند مغادرة والدته في الأيام الأولى. الأنسب:',['إجباره على السكوت','الاستقبال التدريجي وطمأنته والتنسيق مع الأسرة','عزله عن الأطفال','إعادته للمنزل كل يوم'],1,'قلق الانفصال طبيعي ويخف بالتدرج والطمأنينة.'],
+['دور المعلمة أثناء اللعب الحر في الأركان:',['التوجيه المستمر لكل خطوة','الملاحظة والتيسير وطرح الأسئلة المحفزة','الجلوس بعيدًا دون متابعة','إيقاف اللعب لشرح الدرس'],1,'تراقب وتوثق وتتدخل لتوسيع التعلم.'],
+['طفل يستخدم يده اليسرى في الرسم والأكل. الصواب:',['إجباره على استخدام اليمنى في الكتابة','احترام تفضيله ومساعدته على وضعية مناسبة','منعه من الرسم','إبلاغ الأسرة بأنه مشكلة'],1,'استخدام اليد اليسرى ليس مشكلة نمائية.'],
+['أي الأسئلة التالية ينمي لغة الطفل أكثر؟',['هل هذا أحمر؟','ماذا حدث بعد ذلك في القصة؟','هل انتهيت؟','هل تحب التفاح؟'],1,'الأسئلة المفتوحة تحتاج إلى إجابات أطول وتفكير.'],
+['عند اختيار ألعاب لأطفال صغار في الروضة يجب التأكد من أنها:',['صغيرة جدًا يسهل بلعها','مناسبة للعمر وخالية من القطع الصغيرة الخطرة','باهظة الثمن','إلكترونية فقط'],1,'السلامة شرط أساسي في بيئة الروضة.'],
+['لاحظت المعلمة تأخرًا لغويًا واضحًا لدى طفل مقارنة بأقرانه. الإجراء الصحيح:',['تجاهل الأمر','توثيق الملاحظات والتواصل مع الأسرة لتحويله للمختص','إخبار الأطفال الآخرين','تكليفه بالكتابة'],1,'التدخل المبكر يحقق نتائج أفضل.'],
+['يكتب طفل الروضة خربشات تشبه الحروف ويقول إنها اسمه. هذا يعد:',['مشكلة تستدعي القلق','مرحلة طبيعية من الكتابة الناشئة','دليلًا على صعوبة تعلم','سلوكًا يجب منعه'],1,'الكتابة الناشئة خطوة طبيعية نحو الكتابة التقليدية.'],
+['أنسب ركن لتنمية الحواس الخمس والاستكشاف العلمي:',['ركن الاكتشاف (العلوم)','ركن المكتبة فقط','ركن الدراما','لا يوجد ركن مناسب'],0,'يتيح التجريب والملاحظة باللمس والشم والسمع.'],
+['من «أنشطة الحياة العملية» في منهج منتسوري:',['حل المعادلات','صب الماء وتزرير الملابس','حفظ القصائد الطويلة','الاختبارات الكتابية'],1,'تنمي الاستقلالية والتآزر الحركي والتركيز.'],
+['أفضل صيغة للشراكة بين الروضة والأسرة:',['التواصل عند حدوث مشكلة فقط','تواصل مستمر وإشراك الأسرة في الأنشطة','إرسال الدرجات آخر العام','منع زيارة الأسر'],1,'الشراكة المستمرة تدعم نمو الطفل في البيئتين.'],
+['من المؤشرات المبكرة التي قد تستدعي متابعة صعوبات التعلم لدى طفل الروضة:',['حب اللعب','صعوبة مستمرة في تعلم أسماء الألوان والحروف رغم نمو طبيعي في الجوانب الأخرى','الخجل في أول يوم','تفضيل الرسم'],1,'المؤشر يكون مستمرًا وواضحًا مقارنة بالأقران.'],
+['الفئة العمرية التي تخدمها رياض الأطفال في المملكة عادة:',['من 3 إلى 6 سنوات','من 6 إلى 9 سنوات','من سنة إلى سنتين','من 7 إلى 10 سنوات'],0,'تسبق مرحلة الصف الأول الابتدائي.'],
+['يُفضَّل توثيق تقويم طفل الروضة في:',['اختبار نهائي واحد','ملف الطفل (ملف الإنجاز) مع سجلات الملاحظة','شهادة درجات رقمية فقط','لا حاجة للتوثيق'],1,'يعرض نمو الطفل بشكل شامل عبر الوقت.'],
+['قراءة القصص المصورة للأطفال بشكل يومي تنمي بالدرجة الأولى:',['الحصيلة اللغوية والخيال وحب القراءة','الحساب الذهني','المهارات الحركية الكبرى','الحفظ الآلي'],0,'من أقوى الممارسات لدعم النمو اللغوي المبكر.']
+],
+early:[
+['حروف المد في اللغة العربية:',['الباء والتاء والثاء','الألف والواو والياء','الهمزة والهاء','اللام والميم والنون'],1,'تُمد بها الحركات: ا، و، ي.'],
+['التنوين هو:',['نون ساكنة تُلفظ ولا تُكتب','نون متحركة تُكتب','حركة طويلة','حرف مد'],0,'يلحق آخر الاسم نطقًا لا خطًا.'],
+['اللام في كلمة «الشمس»:',['قمرية تُنطق','شمسية تُكتب ولا تُنطق','ليست لامًا','تُنطق دائمًا'],1,'يُدغم صوتها في الحرف الذي بعدها.'],
+['اللام في كلمة «القمر»:',['شمسية','قمرية تُكتب وتُنطق','لا تُكتب','ساكنة لا تُنطق'],1,'تظهر اللام في النطق.'],
+['عشر آحاد تساوي:',['عشرة واحدة','مئة','آحادًا فقط','ألفًا'],0,'أساس مفهوم القيمة المنزلية.'],
+['أصغر عدد مكوّن من رقمين:',['01','10','11','99'],1,'العدد 10 أصغر عدد من رقمين.'],
+['ترتيب الأعداد 21، 12، 102 تصاعديًا:',['102، 21، 12','12، 21، 102','21، 12، 102','12، 102، 21'],1,'من الأصغر إلى الأكبر.'],
+['طالبة في الصف الأول تكتب بعض الحروف معكوسة. التعامل الأنسب:',['اعتبارها صعوبة تعلم فورًا','التدريب المتدرج على الاتجاه ومتابعة الأمر إن استمر','معاقبتها','تجاهله تمامًا'],1,'شائع في بداية تعلم الكتابة، والمتابعة مهمة إن استمر.'],
+['ناتج 9 × 6:',['45','54','56','63'],1,'9 × 6 = 54.'],
+['نصف العدد 18:',['6','8','9','12'],2,'18 ÷ 2 = 9.'],
+['أنسب طريقة لتقديم مفهوم الجمع لطالبات الصف الأول:',['حفظ جداول الجمع','دمج مجموعتين من الأشياء المحسوسة وعدّها','كتابة الرموز فقط','الشرح النظري'],1,'المحسوس يبني المعنى قبل الرمز.'],
+['من فوائد القراءة الجهرية في الصفوف الأولية:',['اكتشاف أخطاء النطق وتنمية الطلاقة','تقليل الفهم','إلغاء الحاجة للكتابة','لا فائدة لها'],0,'تتيح للمعلمة تشخيص الأخطاء وتصحيحها.'],
+['الإملاء الذي تنقل فيه الطالبة الكلمات من نص أمامها:',['الإملاء الاختباري','الإملاء المنقول','الإملاء غير المنظور','الإملاء الاستماعي'],1,'أنسب أنواع الإملاء للمبتدئات.'],
+['التاء المربوطة عند الوقف تُنطق:',['تاءً','هاءً','ألفًا','لا تُنطق'],1,'نقول عند الوقف: مدرسه.'],
+['عدد أضلاع الشكل السداسي:',['5','6','7','8'],1,'السداسي له ستة أضلاع.'],
+['عقرب الساعات يشير إلى 3 وعقرب الدقائق إلى 12. الوقت:',['12:15','3:00','3:12','12:03'],1,'عقرب الدقائق عند 12 يعني ساعة كاملة.'],
+['الحرف الذي يتصل بما قبله ولا يتصل بما بعده:',['الباء','الدال','السين','الميم'],1,'حروف لا تتصل بما بعدها: ا د ذ ر ز و.'],
+['عند تعليم الطالبات القيمة المنزلية، أنسب وسيلة:',['أعواد أو مكعبات تُجمع في حزم عشرية','الحفظ فقط','الآلة الحاسبة','الخطوط الطويلة على السبورة'],0,'تجعل مفهوم الآحاد والعشرات محسوسًا.'],
+['العدد الذي يأتي مباشرة قبل 100:',['90','99','101','98'],1,'99 ثم 100.'],
+['أنسب أسلوب لمكافأة طالبات الصفوف الأولية على السلوك الإيجابي:',['تعزيز فوري ومحدد مثل الثناء ولوحة النجوم','وعد بمكافأة آخر العام فقط','عدم التعزيز','المقارنة بالأخريات'],0,'التعزيز الفوري المحدد أكثر أثرًا في هذا العمر.']
+],
+ar:[
+['تُجر كلمة «مساجد» بالفتحة نيابة عن الكسرة لأنها:',['جمع مذكر سالم','ممنوعة من الصرف (صيغة منتهى الجموع)','اسم مقصور','فعل'],1,'صيغة منتهى الجموع من موانع الصرف.'],
+['«ذو» من الأسماء الخمسة، وتُرفع بـ:',['الضمة','الواو','الألف','ثبوت النون'],1,'جاء ذو علمٍ.'],
+['نوع «احترامًا» في: قامت الطالبات احترامًا للمعلمة.',['حال','مفعول لأجله','تمييز','مفعول مطلق'],1,'بيّن سبب القيام.'],
+['نوع «مبتسمةً» في: جاءت الطالبة مبتسمةً.',['حال','تمييز','مفعول به','نعت'],0,'تبين هيئة صاحبها وقت الفعل.'],
+['نوع «عسلًا» في: اشتريت رطلًا عسلًا.',['حال','تمييز','مفعول لأجله','بدل'],1,'أزال الإبهام عن كلمة رطل.'],
+['اسم الفاعل من الفعل «كتب»:',['مكتوب','كاتب','كتابة','مكتب'],1,'على وزن فاعل من الثلاثي.'],
+['اسم المفعول من الفعل «كتب»:',['كاتب','مكتوب','كتاب','كتّاب'],1,'على وزن مفعول من الثلاثي.'],
+['مصدر الفعل «أكرم»:',['كرم','إكرام','مكرمة','تكريم'],1,'مصدر أفعل على وزن إفعال.'],
+['الكتابة الصحيحة:',['سُأِل','سُئِل','سُءِل','سؤِل'],1,'الهمزة مكسورة فتُكتب على نبرة.'],
+['الكتابة الصحيحة للفعل الماضي من «يدعو»:',['دعى','دعا','دعاء','دعو'],1,'الألف أصلها واو فتُكتب قائمة.'],
+['المقصود بقول العرب «فلان كثير الرماد»:',['فقير','كريم','كسول','غني بالمال'],1,'كناية عن كثرة إيقاد النار للضيوف.'],
+['الاستعارة في أصلها:',['تشبيه حُذف أحد طرفيه','تشبيه ذُكرت أركانه كلها','جناس تام','سجع'],0,'تحذف المشبه أو المشبه به.'],
+['«لا» النافية للجنس تعمل عمل:',['كان','إنّ','ظن','ليس'],1,'تنصب الاسم وترفع الخبر: لا طالبَ غائبٌ.'],
+['من الأدوات التي تجزم فعلًا واحدًا:',['لن','لم','كي','أن'],1,'لم حرف نفي وجزم وقلب.'],
+['فعل الأمر في العربية:',['معرب دائمًا','مبني','مرفوع','منصوب'],1,'يُبنى على ما يُجزم به مضارعه.'],
+['الصواب في العدد:',['ثلاث طلاب','ثلاثة طلاب','ثلاثة طالبات','ثلاث طالب'],1,'الأعداد من 3 إلى 10 تخالف المعدود في التذكير والتأنيث.'],
+['يُنسب إليه وضع أول قواعد علم النحو:',['سيبويه','أبو الأسود الدؤلي','الخليل بن أحمد','ابن مالك'],1,'تذكر الروايات أنه وضعها بتوجيه من علي رضي الله عنه.'],
+['المعلقات من شعر العصر:',['العباسي','الجاهلي','الأموي','الحديث'],1,'من أشهر شعر ما قبل الإسلام.'],
+['لُقّب بشاعر الرسول ﷺ:',['المتنبي','حسان بن ثابت','امرؤ القيس','أبو تمام'],1,'دافع عن الإسلام بشعره.'],
+['«ظنّ» وأخواتها تنصب:',['مفعولًا واحدًا','مفعولين أصلهما مبتدأ وخبر','الفاعل','لا تنصب شيئًا'],1,'ظننتُ الامتحانَ سهلًا.']
+],
+isl:[
+['عدد ركعات صلاة المغرب:',['2','3','4','5'],1,'المغرب ثلاث ركعات.'],
+['عدد أجزاء القرآن الكريم:',['20','30','60','114'],1,'ثلاثون جزءًا، وستون حزبًا.'],
+['السورة التي تعدل ثلث القرآن:',['الفاتحة','الإخلاص','الكوثر','الملك'],1,'ثبت ذلك في الحديث الصحيح.'],
+['أعظم آية في كتاب الله:',['آية الدين','آية الكرسي','آخر آية من البقرة','أول آية من الفاتحة'],1,'كما في صحيح مسلم.'],
+['أول من أسلم من الرجال:',['عمر بن الخطاب','أبو بكر الصديق','عثمان بن عفان','علي بن أبي طالب'],1,'أبو بكر الصديق رضي الله عنه.'],
+['وقعت غزوة بدر الكبرى في السنة:',['الأولى للهجرة','الثانية للهجرة','الثالثة للهجرة','الخامسة للهجرة'],1,'في رمضان من السنة الثانية.'],
+['مقدار المد الطبيعي:',['حركتان','أربع حركات','ست حركات','حركة واحدة'],0,'ويسمى المد الأصلي.'],
+['حروف القلقلة مجموعة في:',['ينمو','قطب جد','يرملون','أخي هاك علمًا'],1,'القاف والطاء والباء والجيم والدال.'],
+['حروف الإدغام بغنة مجموعة في:',['يرملون','ينمو','قطب جد','بمو'],1,'الياء والنون والميم والواو.'],
+['الإدغام بغير غنة يكون عند:',['الياء والواو','اللام والراء','الميم والنون','الباء'],1,'تُدغم النون الساكنة في اللام والراء دون غنة.'],
+['يُشرع سجود السهو عند:',['الزيادة أو النقص أو الشك في الصلاة','الفرح','قراءة آية سجدة','الدعاء'],0,'هذه أسبابه الثلاثة.'],
+['فُرض صيام رمضان في السنة:',['الأولى للهجرة','الثانية للهجرة','الخامسة للهجرة','العاشرة للهجرة'],1,'فرض في السنة الثانية للهجرة.'],
+['من أركان الحج:',['المبيت بمنى','الوقوف بعرفة','رمي الجمرات','طواف الوداع'],1,'الحج عرفة، ولا يصح الحج بدونه.'],
+['يُشرع التيمم عند:',['وجود الماء','فقد الماء أو العجز عن استعماله','البرد الخفيف','السفر القصير دائمًا'],1,'رخصة عند فقد الماء أو الضرر باستعماله.'],
+['عدد أولي العزم من الرسل:',['ثلاثة','خمسة','سبعة','عشرة'],1,'نوح وإبراهيم وموسى وعيسى ومحمد عليهم السلام.'],
+['الكتاب الذي أُنزل على موسى عليه السلام:',['الإنجيل','التوراة','الزبور','صحف إبراهيم'],1,'التوراة.'],
+['أول زوجات النبي ﷺ:',['عائشة','خديجة بنت خويلد','حفصة','سودة'],1,'رضي الله عنها، وأول من آمن به.'],
+['الحديث الذي اتفق على روايته البخاري ومسلم يسمى:',['حسنًا','متفقًا عليه','مرسلًا','موقوفًا'],1,'من أعلى درجات الصحة.'],
+['هاجر النبي ﷺ من مكة إلى:',['الطائف','المدينة المنورة','الحبشة','الشام'],1,'وبدأ بها التاريخ الهجري.'],
+['نصاب زكاة الذهب تقريبًا:',['20 جرامًا','85 جرامًا','595 جرامًا','100 جرام'],1,'عشرون مثقالًا تعادل نحو 85 جرامًا.']
+],
+math:[
+['ناتج 3/4 + 1/8:',['4/12','7/8','1/2','5/8'],1,'6/8 + 1/8 = 7/8.'],
+['العدد 0.75 في صورة نسبة مئوية:',['7.5٪','75٪','0.75٪','750٪'],1,'0.75 × 100 = 75٪.'],
+['محيط مستطيل طوله 5 سم وعرضه 3 سم:',['8 سم','15 سم','16 سم','30 سم'],2,'2 × (5 + 3) = 16.'],
+['مساحة مثلث قاعدته 10 سم وارتفاعه 6 سم:',['16 سم²','30 سم²','60 سم²','36 سم²'],1,'½ × 10 × 6 = 30.'],
+['حجم مكعب طول ضلعه 3 سم:',['9 سم³','18 سم³','27 سم³','12 سم³'],2,'3 × 3 × 3 = 27.'],
+['ناتج (−3) × (−4):',['−12','12','−7','7'],1,'سالب × سالب = موجب.'],
+['حلول المعادلة س² = 49:',['7 فقط','−7 فقط','7 و −7','49'],2,'كلاهما مربعه 49.'],
+['الوسيط للبيانات 3، 7، 9، 12، 15:',['7','9','9.2','12'],1,'القيمة في المنتصف بعد الترتيب.'],
+['المنوال للبيانات 2، 3، 3، 5، 7:',['2','3','4','5'],1,'الأكثر تكرارًا.'],
+['احتمال ظهور عدد زوجي عند رمي مكعب أرقام مرة واحدة:',['1/6','1/3','1/2','2/3'],2,'3 نواتج زوجية من 6.'],
+['القاسم المشترك الأكبر للعددين 12 و 18:',['3','6','9','36'],1,'أكبر عدد يقسم العددين.'],
+['قيمة 10⁰:',['0','1','10','غير معرف'],1,'أي عدد غير الصفر أُسّه صفر يساوي 1.'],
+['الزاوية المتممة للزاوية 35°:',['55°','145°','65°','325°'],0,'المتتامتان مجموعهما 90°.'],
+['مجموع قياسات زوايا الشكل الرباعي الداخلية:',['180°','270°','360°','540°'],2,'يُقسم إلى مثلثين.'],
+['ميل المستقيم الأفقي:',['1','صفر','غير معرف','−1'],1,'لا تغير في ص.'],
+['حل المتباينة 2س − 4 > 6:',['س > 1','س > 5','س < 5','س > 10'],1,'2س > 10 إذن س > 5.'],
+['سعر قطعة 200 ريال وعليها خصم 15٪. سعرها بعد الخصم:',['170 ريالًا','185 ريالًا','30 ريالًا','150 ريالًا'],0,'الخصم 30، والسعر 170.'],
+['المقطع الصادي للمستقيم ص = 2س + 3:',['2','3','−3','1.5'],1,'قيمة ص عندما س = 0.'],
+['الكيلومتر الواحد يساوي:',['100 متر','1000 متر','10000 متر','10 أمتار'],1,'كيلو تعني ألف.'],
+['مفكوك (أ + ب)²:',['أ² + ب²','أ² + 2أب + ب²','2أ + 2ب','أ² − ب²'],1,'مربع مجموع حدين.']
+],
+sci:[
+['أكبر كواكب المجموعة الشمسية:',['زحل','المشتري','الأرض','نبتون'],1,'المشتري أكبرها حجمًا وكتلة.'],
+['سبب تعاقب الليل والنهار:',['دوران الأرض حول الشمس','دوران الأرض حول محورها','دوران القمر حول الأرض','بعد الشمس'],1,'دورة كاملة كل 24 ساعة تقريبًا.'],
+['الغاز الأكثر نسبة في الهواء الجوي:',['الأكسجين','النيتروجين','ثاني أكسيد الكربون','الهيدروجين'],1,'نحو 78٪ من الهواء.'],
+['الغاز الذي يمتصه النبات للقيام بالبناء الضوئي:',['الأكسجين','ثاني أكسيد الكربون','النيتروجين','الهيليوم'],1,'يدخل عبر الثغور.'],
+['عدد أرجل الحشرة:',['4','6','8','10'],1,'الحشرات سداسية الأرجل.'],
+['العنكبوت ليس حشرة لأنه:',['يطير','له ثماني أرجل','يعيش في الماء','ليس له رأس'],1,'العنكبوت من العنكبيات.'],
+['تتكون الصخور النارية من:',['تراكم الرواسب','تبرد الصهارة وتصلبها','تحلل النباتات','ذوبان الجليد'],1,'مثل الجرانيت والبازلت.'],
+['يتجمد الماء النقي عند:',['0°س','4°س','10°س','−10°س'],0,'تحت الضغط الجوي المعتاد.'],
+['ينتقل الضوء في:',['خطوط منحنية دائمًا','خطوط مستقيمة','دوائر','لا ينتقل'],1,'لذلك تتكون الظلال.'],
+['يضيء المصباح في الدائرة الكهربائية عندما تكون:',['مفتوحة','مغلقة','دون بطارية','مقطوعة'],1,'يمر التيار في مسار مغلق.'],
+['أي المواد التالية موصل جيد للكهرباء؟',['الخشب','النحاس','المطاط','البلاستيك'],1,'لذلك تُصنع منه الأسلاك.'],
+['عضو التكاثر في النباتات الزهرية:',['الجذر','الساق','الزهرة','الورقة'],2,'تتكون فيها البذور.'],
+['المخلوقات التي تحلل بقايا الكائنات الميتة:',['المنتجات','المحللات كالفطريات والبكتيريا','آكلات اللحوم','آكلات الأعشاب'],1,'تعيد المواد إلى التربة.'],
+['من الحيوانات ثابتة درجة الحرارة:',['الطيور','الزواحف','الأسماك','البرمائيات'],0,'الطيور والثدييات.'],
+['العظام التي تحمي الدماغ:',['الأضلاع','الجمجمة','العمود الفقري','الحوض'],1,'تحيط بالدماغ وتحميه.'],
+['القمر يبدو مضيئًا لأنه:',['مصدر للضوء','يعكس ضوء الشمس','يحترق','قريب من الأرض'],1,'القمر جسم معتم عاكس.'],
+['وحدة قياس الكتلة في النظام الدولي:',['النيوتن','الكيلوجرام','اللتر','المتر'],1,'الكيلوجرام وحدة الكتلة.'],
+['تحول بخار الماء إلى قطرات ماء:',['التبخر','التكثف','الانصهار','التسامي'],1,'كما يحدث على زجاج بارد.'],
+['أكثر مصادر الطاقة استدامة ونظافة من الخيارات التالية:',['الفحم','الطاقة الشمسية','النفط','الغاز الطبيعي'],1,'طاقة متجددة لا تنضب.'],
+['تتكون الظلال عندما:',['يمر الضوء عبر مادة شفافة','يعترض جسم معتم مسار الضوء','ينعكس الضوء','يغيب الضوء تمامًا'],1,'الضوء ينتقل في خطوط مستقيمة.']
+],
+phy:[
+['سيارة قطعت 100 م في 20 ث. سرعتها المتوسطة:',['2 م/ث','5 م/ث','20 م/ث','2000 م/ث'],1,'السرعة = المسافة ÷ الزمن.'],
+['«لكل فعل رد فعل مساوٍ له في المقدار ومعاكس له في الاتجاه» هو قانون نيوتن:',['الأول','الثاني','الثالث','للجذب العام'],2,'القانون الثالث.'],
+['وزن جسم كتلته 10 كجم (ج = 9.8 م/ث²):',['10 نيوتن','9.8 نيوتن','98 نيوتن','980 نيوتن'],2,'الوزن = ك × ج.'],
+['وحدة قياس التردد:',['الهيرتز','الواط','الجول','الأوم'],0,'عدد الاهتزازات في الثانية.'],
+['تغير اتجاه الضوء عند انتقاله بين وسطين مختلفين:',['الانعكاس','الانكسار','الحيود','التداخل'],1,'بسبب تغير سرعته.'],
+['الصورة المتكونة في المرآة المستوية:',['حقيقية مقلوبة','تقديرية معتدلة مساوية للجسم','حقيقية مكبرة','لا تتكون صورة'],1,'خلف المرآة وبالبعد نفسه.'],
+['وحدة قياس الشحنة الكهربائية:',['الأمبير','الكولوم','الفولت','الأوم'],1,'الكولوم.'],
+['مقاومتان 2 أوم و 3 أوم موصلتان على التوالي. المقاومة المكافئة:',['1.2 أوم','5 أوم','6 أوم','1 أوم'],1,'على التوالي تُجمع المقاومات.'],
+['مقاومتان متساويتان كل منهما 6 أوم على التوازي. المقاومة المكافئة:',['12 أوم','6 أوم','3 أوم','2 أوم'],2,'م = 6 ÷ 2.'],
+['جهاز يعمل على 220 فولت ويمر فيه تيار 2 أمبير. قدرته:',['110 واط','222 واط','440 واط','880 واط'],2,'القدرة = الجهد × التيار.'],
+['طاقة الوضع لجسم كتلته 2 كجم على ارتفاع 5 م (ج = 10 م/ث²):',['10 جول','50 جول','100 جول','200 جول'],2,'ط و = ك × ج × ف.'],
+['قوة 100 نيوتن تؤثر على مساحة 2 م². الضغط:',['50 باسكال','200 باسكال','102 باسكال','98 باسكال'],0,'الضغط = القوة ÷ المساحة.'],
+['تنتقل الحرارة من الشمس إلى الأرض عبر الفضاء بـ:',['التوصيل','الحمل','الإشعاع','الاحتكاك'],2,'الإشعاع لا يحتاج إلى وسط.'],
+['سرعة الصوت في الهواء تقريبًا:',['34 م/ث','340 م/ث','3400 م/ث','3 × 10⁸ م/ث'],1,'عند درجة حرارة الغرفة.'],
+['العدسة المحدبة عدسة:',['مفرقة','لامّة','لا تكسر الضوء','عاكسة'],1,'تجمع الأشعة في البؤرة.'],
+['العلاقة الصحيحة بين سرعة الموجة وترددها وطولها الموجي:',['ع = ت × λ','ع = ت ÷ λ','ع = λ ÷ ت','ع = ت + λ'],0,'السرعة = التردد × الطول الموجي.'],
+['كمية تحرك جسم كتلته 3 كجم وسرعته 4 م/ث:',['7 كجم·م/ث','12 كجم·م/ث','0.75 كجم·م/ث','24 كجم·م/ث'],1,'كمية التحرك = ك × ع.'],
+['وحدة قياس شدة المجال المغناطيسي:',['التسلا','الفاراد','الهنري','الكلفن'],0,'التسلا.'],
+['جسم تغيرت سرعته من 0 إلى 20 م/ث خلال 5 ث. تسارعه:',['4 م/ث²','100 م/ث²','25 م/ث²','0.25 م/ث²'],0,'ت = Δع ÷ ز.'],
+['شغل قوة مقدارها 10 نيوتن حركت جسمًا 3 م في اتجاهها:',['3.3 جول','13 جول','30 جول','300 جول'],2,'الشغل = ق × ف.']
+],
+chem:[
+['عدد الإلكترونات في الذرة المتعادلة يساوي عدد:',['النيوترونات','البروتونات','الأغلفة','النظائر'],1,'الشحنة الكلية صفر.'],
+['النظائر ذرات للعنصر نفسه تختلف في عدد:',['البروتونات','النيوترونات','الإلكترونات','الأغلفة'],1,'لذلك تختلف كتلها.'],
+['رمز عنصر الصوديوم:',['S','So','Na','Sd'],2,'من الاسم اللاتيني Natrium.'],
+['رمز عنصر الحديد:',['Ir','Fe','I','F'],1,'من الاسم اللاتيني Ferrum.'],
+['تفاعل حمض مع قاعدة لتكوين ملح وماء يسمى:',['الأكسدة','التعادل','الاحتراق','التحلل'],1,'تفاعل التعادل.'],
+['مولارية محلول فيه 2 مول من المذاب في 4 لترات من المحلول:',['0.5 مولار','2 مولار','8 مولار','6 مولار'],0,'المولارية = المولات ÷ اللترات.'],
+['الفلزات القلوية تقع في المجموعة:',['1','2','17','18'],0,'مثل الليثيوم والصوديوم والبوتاسيوم.'],
+['الهالوجينات تقع في المجموعة:',['1','2','17','18'],2,'مثل الفلور والكلور.'],
+['العامل المحفز في التفاعل الكيميائي:',['يُستهلك تمامًا','يسرّع التفاعل دون أن يُستهلك','يوقف التفاعل','يزيد كمية النواتج'],1,'يخفض طاقة التنشيط.'],
+['التفاعل الذي يطلق حرارة إلى الوسط المحيط:',['ماص للحرارة','طارد للحرارة','متعادل','فيزيائي'],1,'مثل الاحتراق.'],
+['أبسط مركب هيدروكربوني:',['الإيثان','الميثان','البروبان','البنزين'],1,'صيغته CH₄.'],
+['أي مما يلي تغير كيميائي؟',['انصهار الجليد','احتراق الورق','تقطيع الخشب','ذوبان السكر'],1,'تتكون مواد جديدة.'],
+['أي مما يلي تغير فيزيائي؟',['صدأ الحديد','احتراق الخشب','ذوبان الثلج','طهي البيض'],2,'لا تتكون مادة جديدة.'],
+['ينسب إليه قانون حفظ الكتلة:',['دالتون','لافوازييه','بور','مندليف'],1,'الكتلة لا تفنى ولا تُستحدث في التفاعل.'],
+['أقصى عدد من الإلكترونات في مستوى الطاقة الأول:',['2','8','18','32'],0,'وفق القاعدة 2ن².'],
+['محلول قيمة pH له تساوي 2 يعد:',['قاعديًا','حمضيًا','متعادلًا','ملحيًا'],1,'أقل من 7 حمضي.'],
+['الغاز الضروري لحدوث الاحتراق:',['النيتروجين','الأكسجين','الهيليوم','الأرجون'],1,'من أضلاع مثلث الاحتراق.'],
+['الرابطة في جزيء الهيدروجين H₂:',['أيونية','تساهمية','فلزية','هيدروجينية'],1,'مشاركة زوج من الإلكترونات.'],
+['الكتلة الذرية التقريبية لذرة الكربون الشائعة:',['6','12','14','16'],1,'ستة بروتونات وستة نيوترونات.'],
+['رتب مندليف العناصر في جدوله الأول حسب:',['العدد الذري','الكتلة الذرية','الحالة الفيزيائية','اللون'],1,'ثم أعيد ترتيبها لاحقًا حسب العدد الذري.']
+],
+bio:[
+['العضية المسؤولة عن بناء البروتين:',['الرايبوسوم','الفجوة','الجدار الخلوي','الليسوسوم'],0,'يُترجم الرنا المرسال إلى بروتين.'],
+['ينتج عن الانقسام المتساوي:',['أربع خلايا مختلفة','خليتان متماثلتان وراثيًا','أمشاج','خلية واحدة'],1,'للنمو وتعويض الخلايا.'],
+['يحتوي RNA على قاعدة ... بدلًا من الثايمين:',['الأدينين','اليوراسيل','الجوانين','السايتوسين'],1,'اليوراسيل يرتبط بالأدينين.'],
+['النمط الجيني Aa يوصف بأنه:',['متماثل سائد','غير متماثل (هجين)','متماثل متنحٍّ','طافر'],1,'يحمل أليلين مختلفين.'],
+['عند تزاوج فردين Aa × Aa، نسبة ظهور الصفة المتنحية في الأبناء:',['1/4','1/2','3/4','صفر'],0,'aa تمثل ربع الاحتمالات.'],
+['فصيلة الدم التي تُعطي جميع الفصائل (المعطي العام):',['A','B','AB','O السالبة'],3,'لا تحمل مولدات A أو B أو Rh.'],
+['فصيلة الدم المستقبل العام:',['O','A','AB الموجبة','B'],2,'لا تحتوي أجسامًا مضادة لـ A أو B.'],
+['يُمتص معظم الغذاء المهضوم في:',['المعدة','الأمعاء الدقيقة','الأمعاء الغليظة','المريء'],1,'بواسطة الخملات.'],
+['الهرمون الذي يخفض سكر الدم ويفرزه البنكرياس:',['الأدرينالين','الإنسولين','الثيروكسين','الجلوكاجون'],1,'يساعد الخلايا على امتصاص الجلوكوز.'],
+['الوحدة الوظيفية في الكلية:',['النفرون','العصبون','الحويصلة الهوائية','الخملة'],0,'تُرشح الدم وتكوّن البول.'],
+['الوحدة الأساسية للجهاز العصبي:',['النفرون','العصبون','الليف العضلي','الكريات'],1,'الخلية العصبية.'],
+['تتبادل الأوراق الغازات عبر:',['الجذور','الثغور','الخشب','اللحاء'],1,'فتحات دقيقة في البشرة.'],
+['النسيج الذي ينقل الماء والأملاح من الجذر إلى الأوراق:',['اللحاء','الخشب','البشرة','الكامبيوم'],1,'واللحاء ينقل الغذاء المصنوع.'],
+['البكتيريا من الكائنات:',['حقيقية النواة','بدائية النواة','عديدة الخلايا دائمًا','النباتية'],1,'لا تحتوي نواة محاطة بغشاء.'],
+['الفيروسات لا تتكاثر إلا:',['في التربة','داخل خلية حية','في الهواء','في الماء'],1,'هي طفيليات إجبارية.'],
+['أصغر وحدة في التصنيف الحيوي:',['المملكة','الجنس','النوع','الفصيلة'],2,'أفراده تتزاوج وتنتج نسلًا خصبًا.'],
+['صاحب نظام التسمية الثنائية للكائنات الحية:',['لينيوس','داروين','مندل','هوك'],0,'اسم الجنس ثم النوع.'],
+['البروتين الذي ينقل الأكسجين في خلايا الدم الحمراء:',['الإنسولين','الهيموجلوبين','الكيراتين','الكولاجين'],1,'يحتوي على الحديد.'],
+['الإنسان يتنفس الأكسجين ويخرج:',['النيتروجين','ثاني أكسيد الكربون','الهيدروجين','الأوزون'],1,'ناتج التنفس الخلوي.'],
+['الجزء المسؤول عن التحكم في أنشطة الخلية ويحتوي المادة الوراثية:',['الغشاء الخلوي','النواة','السيتوبلازم','الفجوة'],1,'مركز التحكم في الخلية.']
+],
+en:[
+['If I ___ rich, I would travel the world.',['am','were','will be','have been'],1,'Second conditional uses "were" for unreal situations.'],
+['He is interested ___ science.',['on','in','at','for'],1,'"Interested in" is the correct collocation.'],
+['There ___ many books on the table.',['is','are','was','be'],1,'"Books" is plural, so we use "are".'],
+['Choose the correct spelling:',['neccessary','necessary','necesary','neccesary'],1,'One "c" and double "s".'],
+['She said, "I am tired." In reported speech:',['She said that she is tired.','She said that she was tired.','She said that I was tired.','She says she tired.'],1,'Backshift: am becomes was.'],
+['The noun form of "decide" is:',['decisive','decision','decided','deciding'],1,'decide → decision.'],
+['I look forward to ___ you.',['see','seeing','saw','seen'],1,'"To" here is a preposition, so it takes -ing.'],
+['The superlative of "big" is:',['bigger','most big','biggest','bigest'],2,'Double the final consonant: biggest.'],
+['Which word is a conjunction?',['quickly','because','beautiful','table'],1,'It joins two clauses.'],
+['The past participle of "write" is:',['wrote','written','writed','writing'],1,'write – wrote – written.'],
+['I have lived here ___ 2010.',['for','since','from','at'],1,'"Since" + a point in time.'],
+['She is a teacher, ___?',["isn't she","doesn't she","is she","wasn't she"],0,'Positive statement takes a negative tag.'],
+['Total Physical Response (TPR) asks learners to:',['translate texts','respond to commands with body movements','memorize grammar rules','write essays'],1,'Developed by James Asher; links language and action.'],
+['Phonics instruction focuses on:',['letter–sound relationships','grammar rules','vocabulary lists only','spelling tests'],0,'It helps learners decode words.'],
+['A word that describes a noun is:',['a verb','an adverb','an adjective','a preposition'],2,'For example: a red car.'],
+['How ___ apples do you have?',['much','many','any','little'],1,'"Apples" is countable.'],
+['How ___ water do you drink?',['many','much','few','a few'],1,'"Water" is uncountable.'],
+['The main purpose of a pre-reading activity is to:',['test grammar','activate background knowledge','end the lesson','assign homework'],1,'It prepares learners to understand the text.'],
+['"Scaffolding" in teaching means:',['removing all support','temporary support that is gradually withdrawn','giving the answers','strict discipline'],1,'Support is reduced as learners become independent.'],
+['Choose the correct sentence:',['She don’t like tea.','She doesn’t like tea.','She not like tea.','She doesn’t likes tea.'],1,'He/she/it takes "doesn’t" + base verb.']
+],
+soc:[
+['عاصمة الدولة السعودية الأولى:',['الرياض','الدرعية','حائل','عنيزة'],1,'أسسها الإمام محمد بن سعود.'],
+['مؤسس الدولة السعودية الأولى:',['الإمام محمد بن سعود','الإمام تركي بن عبدالله','الملك عبدالعزيز','الإمام فيصل بن تركي'],0,'عام 1139هـ (1727م).'],
+['مؤسس الدولة السعودية الثانية:',['الإمام محمد بن سعود','الإمام تركي بن عبدالله','الإمام سعود بن عبدالعزيز','الملك سعود'],1,'واتخذ الرياض عاصمة لها.'],
+['استرد الملك عبدالعزيز الرياض عام:',['1319هـ (1902م)','1351هـ','1290هـ','1373هـ'],0,'بداية مرحلة التوحيد.'],
+['أُطلقت رؤية المملكة 2030 عام:',['2010','2016','2020','2030'],1,'أُعلنت في أبريل 2016م.'],
+['تقع منطقة جازان في:',['شمال المملكة','جنوب غرب المملكة','شرق المملكة','وسط المملكة'],1,'على ساحل البحر الأحمر.'],
+['عدد المناطق الإدارية في المملكة:',['10','13','15','20'],1,'ثلاث عشرة منطقة إدارية.'],
+['بدأ إنتاج النفط تجاريًا في المملكة بعد نجاح بئر الدمام رقم 7 عام:',['1938م','1950م','1925م','1973م'],0,'وعُرفت ببئر الخير.'],
+['تأسس مجلس التعاون لدول الخليج العربية عام:',['1971م','1981م','1991م','2001م'],1,'في أبوظبي.'],
+['أكبر الدول العربية مساحة:',['السعودية','الجزائر','السودان','مصر'],1,'الجزائر أكبرها مساحة.'],
+['يوم العلم في المملكة العربية السعودية:',['11 مارس','22 فبراير','23 سبتمبر','1 يناير'],0,'يرتبط بإقرار العلم عام 1355هـ (1937م).'],
+['مقياس رسم خريطة 1 : 100,000 يعني أن 1 سم على الخريطة يساوي:',['1 م','100 م','1 كم','100 كم'],2,'100,000 سم = 1 كم.'],
+['الكثافة السكانية تساوي:',['المساحة ÷ عدد السكان','عدد السكان ÷ المساحة','عدد السكان × المساحة','عدد المواليد'],1,'عدد السكان في وحدة المساحة.'],
+['المناخ السائد في معظم أراضي المملكة:',['استوائي ممطر','صحراوي حار جاف','قطبي','معتدل ممطر'],1,'قلة الأمطار وارتفاع الحرارة.'],
+['يربط مضيق هرمز بين الخليج العربي و:',['البحر الأحمر','خليج عُمان','البحر المتوسط','بحر قزوين'],1,'من أهم الممرات المائية.'],
+['المدينة التي تضم المسجد النبوي:',['مكة المكرمة','المدينة المنورة','الطائف','القدس'],1,'ثاني الحرمين الشريفين.'],
+['الخط الوهمي الذي يقسم الأرض إلى نصف شرقي وغربي:',['خط الاستواء','خط جرينتش','مدار السرطان','الدائرة القطبية'],1,'خط الطول الرئيس.'],
+['أنسب مصدر لدراسة أحداث تاريخية بدقة:',['المصادر الأولية والوثائق','الشائعات','الإعلانات','الآراء الشخصية فقط'],0,'الوثائق المعاصرة للحدث أكثر موثوقية.'],
+['من مهارات تدريس الدراسات الاجتماعية قراءة:',['الخرائط والجداول والأشكال','النوتة الموسيقية','المعادلات الكيميائية','الشفرات البرمجية'],0,'مهارات جغرافية وتاريخية أساسية.'],
+['المنطقة الشرقية في المملكة تطل على:',['البحر الأحمر','الخليج العربي','بحر العرب','البحر المتوسط'],1,'ومن مدنها الدمام والخبر.']
+],
+cs:[
+['من أمثلة أنظمة التشغيل:',['Word','Windows','Chrome','Excel'],1,'يدير موارد الحاسب والبرامج.'],
+['عنوان صفحة الويب الذي يُكتب في المتصفح يسمى:',['IP','URL','CPU','USB'],1,'محدد موقع الموارد.'],
+['الحرف S في بروتوكول HTTPS يدل على:',['السرعة','الأمان (التشفير)','البحث','الخادم'],1,'Secure: الاتصال مشفر.'],
+['الكيلوبايت يساوي تقريبًا:',['100 بايت','1024 بايت','8 بايت','1000000 بايت'],1,'2¹⁰ = 1024.'],
+['جملة برمجية تُستخدم لتكرار تنفيذ مجموعة أوامر:',['if','for (حلقة تكرار)','print','input'],1,'الحلقات تكرر التعليمات.'],
+['جملة برمجية تنفذ أمرًا عند تحقق شرط معين:',['for','if','while true','import'],1,'الجملة الشرطية.'],
+['المتغير في البرمجة:',['جهاز إدخال','اسم لمكان يخزن قيمة يمكن أن تتغير','نوع من الفيروسات','لغة برمجة'],1,'يحفظ البيانات أثناء تنفيذ البرنامج.'],
+['في جدول قاعدة البيانات، الصف الواحد يسمى:',['حقلًا','سجلًا','مفتاحًا','عمودًا'],1,'السجل بيانات عنصر واحد كامل.'],
+['اللغة المستخدمة لتنسيق صفحات الويب وألوانها:',['CSS','SQL','C++','Java'],0,'CSS للتنسيق، وHTML للهيكل.'],
+['أقوى كلمة مرور من الخيارات التالية:',['123456','اسمك','M9#tr!2qL','password'],2,'تجمع أحرفًا وأرقامًا ورموزًا.'],
+['برنامج ضار يلحق نفسه بملفات أخرى وينتشر عند تشغيلها:',['الفيروس','المتصفح','المحرر','الضاغط'],0,'من أنواع البرمجيات الضارة.'],
+['التخزين السحابي يعني:',['حفظ الملفات على القرص الصلب فقط','حفظ الملفات على خوادم عبر الإنترنت','طباعة الملفات','حذف الملفات'],1,'يمكن الوصول إليها من أي جهاز.'],
+['تعلم الآلة فرع من الذكاء الاصطناعي يعتمد على:',['التعلم من البيانات','الطباعة','الكهرباء فقط','الكتابة اليدوية'],0,'تتحسن النماذج بالأمثلة.'],
+['عنوان IP يُستخدم لـ:',['تحديد هوية الجهاز على الشبكة','تسريع المعالج','تشغيل الطابعة','تخزين الصور'],0,'مثل العنوان البريدي للجهاز.'],
+['اختصار لوحة المفاتيح للنسخ في ويندوز:',['Ctrl + V','Ctrl + C','Ctrl + X','Ctrl + Z'],1,'و Ctrl + V للصق.'],
+['لغة برمجة مرئية بالكتل مناسبة لتعليم الصغار:',['Scratch','C','Assembly','SQL'],0,'تعتمد على سحب الكتل وإفلاتها.'],
+['الشكل الذي يمثل القرار (نعم/لا) في المخطط الانسيابي:',['المستطيل','المعين','الدائرة','متوازي الأضلاع'],1,'يتفرع منه مساران.'],
+['الشبكة التي تربط أجهزة في مبنى أو مدرسة واحدة:',['LAN','WAN','الإنترنت','GPS'],0,'شبكة محلية.'],
+['من السلوكيات الآمنة على الإنترنت:',['مشاركة كلمة المرور مع الأصدقاء','عدم فتح روابط مجهولة المصدر','نشر رقم الهوية','قبول كل طلبات الصداقة'],1,'الروابط المجهولة قد تكون احتيالية.'],
+['البرمجيات مفتوحة المصدر تعني أن:',['شفرتها المصدرية متاحة للاطلاع والتعديل','لا يمكن استخدامها','مدفوعة دائمًا','تعمل دون حاسب'],0,'مثل نظام لينكس.']
+],
+art:[
+['اللون المحايد من الألوان التالية:',['الأحمر','الرمادي','البرتقالي','الأخضر'],1,'الأبيض والأسود والرمادي ألوان محايدة.'],
+['انتقال اللون تدريجيًا من الفاتح إلى الداكن يسمى:',['التدرج اللوني','التباين','الإيقاع','الملمس'],0,'يعطي إحساسًا بالحجم والعمق.'],
+['إذا تساوى توزيع العناصر على جانبي التكوين فهذا توازن:',['متماثل','غير متماثل','إشعاعي','عشوائي'],0,'كالمرآة على جانبي المحور.'],
+['الإحساس بخشونة السطح أو نعومته في العمل الفني:',['اللون','الملمس','الخط','الفراغ'],1,'قد يكون حقيقيًا أو إيهاميًا.'],
+['يعتمد الفن الإسلامي في زخارفه بشكل رئيس على:',['تصوير الأشخاص','الزخارف الهندسية والنباتية والخط','الصور الفوتوغرافية','الرسوم الكرتونية'],1,'من أبرز سمات الفن الإسلامي.'],
+['الخط الأكثر استخدامًا في الكتابة اليومية السريعة:',['الثلث','الرقعة','الكوفي','الديواني'],1,'يتميز بالبساطة والسرعة.'],
+['يلقب بأنه أصعب الخطوط العربية ويستخدم في العناوين والزخرفة:',['الرقعة','الثلث','الإجازة','النسخ'],1,'خط الثلث من أجمل الخطوط وأصعبها.'],
+['السدو فن تقليدي يعتمد على:',['النحت على الحجر','نسيج الصوف وشعر الحيوانات بزخارف هندسية','الرسم الزيتي','الفسيفساء'],1,'من الحرف التراثية في الجزيرة العربية.'],
+['القط العسيري فن تراثي يُستخدم في:',['تزيين جدران المنازل من الداخل','صناعة الفخار','نسج السجاد','الطباعة على القماش'],0,'تمارسه نساء منطقة عسير.'],
+['المدرسة الفنية التي اهتمت بتسجيل أثر الضوء بضربات فرشاة سريعة:',['التكعيبية','الانطباعية','السريالية','الكلاسيكية'],1,'من روادها مونيه.'],
+['ارتبط اسم بيكاسو بالمدرسة:',['الانطباعية','التكعيبية','الواقعية','الرومانسية'],1,'تحليل الأشكال إلى مسطحات هندسية.'],
+['لوحة «ليلة النجوم» للفنان:',['دافنشي','فان جوخ','رامبرانت','مونيه'],1,'رسمها عام 1889م.'],
+['خلط الأزرق مع الأصفر ينتج:',['البنفسجي','الأخضر','البرتقالي','البني'],1,'لون ثانوي.'],
+['تمتاز الألوان المائية بأنها:',['معتمة تمامًا','شفافة','لا تُخلط بالماء','زيتية'],1,'تظهر طبقات الورق من خلالها.'],
+['تكرار العناصر في التصميم بشكل منتظم يولد:',['الإيقاع','الفراغ','الملمس','اللون'],0,'يعطي إحساسًا بالحركة والوحدة.'],
+['الاختلاف الواضح بين العناصر كالفاتح والداكن يسمى:',['الانسجام','التباين','التماثل','التكرار'],1,'يجذب الانتباه لمركز العمل.'],
+['النقطة التي تلتقي فيها الخطوط المتوازية ظاهريًا في الرسم المنظوري:',['نقطة التلاشي','مركز السيادة','نقطة البداية','خط الأرض'],0,'تقع على خط الأفق.'],
+['عند تقويم رسوم أطفال المرحلة الابتدائية يُراعى:',['مطابقتها للواقع تمامًا','مرحلة النمو الفني والتعبير والإبداع','نظافة الورقة فقط','سرعة الإنجاز'],1,'لكل مرحلة خصائصها في التعبير.'],
+['إضافة اللون الأبيض إلى لون ما:',['تُغمّقه','تُفتّحه','تجعله باردًا دائمًا','لا تغيره'],1,'وإضافة الأسود تغمقه.'],
+['العنصر الذي يُبرز ويجذب النظر أولًا في العمل الفني يسمى:',['مركز السيادة','الخلفية','الإطار','الهامش'],0,'نقطة الاهتمام الرئيسة.'],
+['الخامة الأساسية في فن الخزف:',['الطين المحروق','الخشب','الورق','الزجاج المصهور فقط'],0,'يُشكّل الطين ثم يُحرق في الفرن.'],
+['الألوان الثانوية هي:',['الأحمر والأصفر والأزرق','الأخضر والبرتقالي والبنفسجي','الأبيض والأسود','البني والرمادي'],1,'ناتجة عن خلط لونين أساسيين.']
+],
+pe:[
+['من عناصر اللياقة البدنية المرتبطة بالصحة:',['الرشاقة','تكوين الجسم','زمن الرجع','التوازن'],1,'إلى جانب التحمل والقوة والمرونة.'],
+['القدرة على تغيير اتجاه الجسم بسرعة ودقة:',['المرونة','الرشاقة','القوة','التحمل'],1,'من عناصر اللياقة المرتبطة بالمهارة.'],
+['الهدف من التهدئة بعد التمرين:',['زيادة سرعة القلب','إعادة الجسم تدريجيًا إلى حالته الطبيعية','بناء العضلات','لا فائدة منها'],1,'تساعد على تقليل الدوخة والتشنج.'],
+['مؤشر كتلة الجسم يُحسب بقسمة الوزن (كجم) على:',['الطول (م)','مربع الطول (م²)','العمر','محيط الخصر'],1,'BMI = الوزن ÷ الطول².'],
+['ارتفاع حلقة كرة السلة عن الأرض:',['2.5 م','3.05 م','3.5 م','2.8 م'],1,'عشرة أقدام تقريبًا.'],
+['زمن الشوط الواحد في مباراة كرة القدم:',['30 دقيقة','45 دقيقة','60 دقيقة','40 دقيقة'],1,'شوطان مدة كل منهما 45 دقيقة.'],
+['الضربة الساحقة من مهارات:',['كرة السلة','الكرة الطائرة','كرة القدم','الجمباز'],1,'ضربة هجومية قوية فوق الشبكة.'],
+['تنطيط الكرة باليد مع الجري من مهارات:',['كرة السلة','الكرة الطائرة','التنس','السباحة'],0,'المحاورة في كرة السلة.'],
+['تمرين الضغط يقوي بشكل رئيس عضلات:',['الساقين','الصدر والذراعين','الرقبة فقط','القدمين'],1,'إضافة إلى عضلات الجذع.'],
+['الإسعاف الأولي لطالبة أُصيبت بضربة حرارة:',['تركها في الشمس','نقلها لمكان بارد وتبريدها وطلب المساعدة الطبية','إعطاؤها مشروبًا ساخنًا','إكمال النشاط'],1,'حالة طارئة تحتاج تدخلًا سريعًا.'],
+['توصي منظمة الصحة العالمية بأن يمارس الأطفال والمراهقون نشاطًا بدنيًا متوسطًا إلى شديد يوميًا لمدة:',['15 دقيقة','30 دقيقة','60 دقيقة في المتوسط','ساعتين'],2,'60 دقيقة يوميًا في المتوسط.'],
+['عدد لاعبي فريق كرة اليد داخل الملعب:',['5','6','7','11'],2,'ستة لاعبين وحارس مرمى.'],
+['الإسعاف الصحيح للنزيف الأنفي:',['إمالة الرأس للخلف','إمالة الرأس للأمام قليلًا والضغط على الأنف','الاستلقاء على الظهر','وضع ماء ساخن'],1,'يمنع ابتلاع الدم.'],
+['سباق 100 متر من سباقات:',['التحمل','العدو (السرعة)','الوثب','الرمي'],1,'سباق سرعة قصير.'],
+['الوثب الطويل من مسابقات:',['المضمار','الميدان','السباحة','الألعاب الجماعية'],1,'مسابقات الوثب والرمي ميدانية.'],
+['لمراعاة الفروق الفردية في درس التربية البدنية:',['توحيد صعوبة التمرين للجميع','التدرج في مستوى صعوبة المهارة','استبعاد الطالبات الضعيفات','الاكتفاء بالشرح النظري'],1,'تتقدم كل طالبة حسب قدرتها.'],
+['الجلوس الصحيح أمام الحاسب:',['انحناء الظهر للأمام','استقامة الظهر وثبات القدمين على الأرض','الجلوس على طرف الكرسي','رفع الكتفين'],1,'يحمي من آلام الظهر والرقبة.'],
+['الألعاب الصغيرة في درس التربية البدنية تُستخدم عادة لـ:',['التسخين والتشويق وتعلم المهارات بشكل ممتع','الاختبار النهائي فقط','العقاب','التهدئة فقط'],0,'بسيطة القواعد وقليلة الأدوات.'],
+['الشوط في الكرة الطائرة (عدا الشوط الحاسم) ينتهي عند:',['15 نقطة','21 نقطة','25 نقطة بفارق نقطتين','30 نقطة'],2,'والشوط الخامس ينتهي عند 15.'],
+['شرب الماء أثناء النشاط البدني يكون:',['ممنوعًا','على فترات منتظمة وبكميات معتدلة','بعد ساعات فقط','دفعة واحدة كبيرة'],1,'لتعويض السوائل المفقودة.'],
+['التمرين الذي ينمي عنصر المرونة:',['الإطالة','العدو السريع','رفع الأثقال الثقيلة','الوثب العالي'],0,'يزيد مدى الحركة في المفاصل.'],
+['عند حدوث إصابة في الحصة، أول ما تفعله المعلمة:',['تقييم الحالة وإيقاف النشاط وتقديم الإسعاف الأولي','تجاهلها','إكمال الحصة','إرسال الطالبة للمنزل وحدها'],0,'سلامة الطالبة أولًا.']
+],
+fam:[
+['المصدر الرئيس لطاقة الجسم:',['الفيتامينات','الكربوهيدرات','الأملاح','الماء'],1,'مثل الخبز والأرز.'],
+['تساعد الألياف الغذائية على:',['تحسين عملية الهضم','زيادة الكوليسترول','إضعاف العظام','لا فائدة لها'],0,'توجد في الخضار والفواكه والحبوب الكاملة.'],
+['نقص فيتامين أ يسبب:',['العشى الليلي','الإسقربوط','الكساح','فقر الدم'],0,'ضعف الرؤية في الضوء الخافت.'],
+['عنصر اليود ضروري لعمل:',['الكلية','الغدة الدرقية','الرئة','المعدة'],1,'نقصه قد يسبب تضخم الغدة.'],
+['درجة حرارة الثلاجة المناسبة لحفظ الأطعمة:',['أقل من 5°س','15°س','25°س','صفر تمامًا دائمًا'],0,'تبطئ نمو البكتيريا.'],
+['الإسعاف الأولي للحرق البسيط:',['وضع معجون الأسنان','تبريده بماء جارٍ فاتر إلى بارد لعدة دقائق','وضع الثلج مباشرة','فقء الفقاعات'],1,'يخفف الألم ويقلل الضرر.'],
+['يُكتب على بطاقة العناية بالملابس:',['سعر القطعة','تعليمات الغسيل والكي والتجفيف','اسم البائع','تاريخ الشراء'],1,'تحافظ على جودة الملابس.'],
+['القطن من الألياف:',['الطبيعية النباتية','الطبيعية الحيوانية','الصناعية','المعدنية'],0,'يُستخرج من نبات القطن.'],
+['الصوف من الألياف:',['النباتية','الحيوانية','الصناعية','المعدنية'],1,'من شعر الأغنام.'],
+['من الألياف الصناعية:',['الحرير','البوليستر','الكتان','الصوف'],1,'مشتق من البترول.'],
+['أي مما يلي من الحاجات الأساسية لا الرغبات؟',['الهاتف الحديث','الغذاء','الحلوى','الألعاب'],1,'لا غنى عنه للحياة.'],
+['أفضل مكان لحفظ المنظفات في المنزل:',['بجانب الطعام','في مكان مرتفع مغلق بعيدًا عن الأطفال','على الأرض','في علب العصير'],1,'يقي من حالات التسمم.'],
+['أطعمة غنية بالحديد تفيد من يعاني فقر الدم:',['الكبد والعدس والسبانخ','الحلويات','المشروبات الغازية','الشاي بكثرة مع الوجبات'],0,'والشاي مع الوجبات يقلل امتصاص الحديد.'],
+['من طرق ترشيد استهلاك الكهرباء في المنزل:',['ترك الأنوار مضاءة','إطفاء الأجهزة عند عدم الاستخدام','فتح الثلاجة كثيرًا','تشغيل المكيف مع فتح النوافذ'],1,'يقلل الفاتورة ويحافظ على الموارد.'],
+['أفضل غذاء للرضيع في أشهره الأولى:',['الحليب البقري','الرضاعة الطبيعية','العصائر','الماء'],1,'توصي بها الجهات الصحية.'],
+['أول خطوة في إدارة الوقت بفعالية:',['تأجيل المهام','تحديد الأولويات','العمل دون خطة','إنجاز الأسهل فقط'],1,'يساعد على إنجاز المهم أولًا.'],
+['من أساليب التواصل الأسري الإيجابي:',['الحوار والإنصات','الصراخ','التجاهل','المقاطعة'],0,'يقوي الروابط بين أفراد الأسرة.'],
+['الإسعاف الأولي لشخص بالغ يختنق ولا يستطيع الكلام:',['إعطاؤه ماء','الضغطات البطنية (مناورة هيمليك)','تركه يستلقي','الانتظار'],1,'تدفع الجسم الغريب للخارج.'],
+['وجبة الإفطار مهمة لطالبات المدارس لأنها:',['تزيد النعاس','تمد الجسم والدماغ بالطاقة لبداية اليوم','غير ضرورية','تسبب السمنة دائمًا'],1,'تساعد على التركيز.'],
+['تاريخ انتهاء الصلاحية على المنتج الغذائي يعني:',['آخر يوم يُضمن فيه سلامة المنتج','يوم الإنتاج','يوم التخزين','لا معنى له'],0,'لا يُستهلك بعده.'],
+['الطبق الصحي المتوازن يحتوي على:',['نوع واحد من الطعام','مجموعات غذائية متنوعة بكميات مناسبة','حلويات فقط','نشويات فقط'],1,'التنوع أساس التغذية السليمة.'],
+['الادخار المنتظم يعني:',['إنفاق الدخل كله','تخصيص جزء ثابت من الدخل للمستقبل','الاقتراض','الشراء بالتقسيط دائمًا'],1,'يحقق الأهداف ويواجه الطوارئ.']
+],
+sped:[
+['متوسط درجات معظم مقاييس الذكاء المقننة:',['50','75','100','150'],2,'والانحراف المعياري غالبًا 15.'],
+['يشترط لتشخيص الإعاقة الفكرية:',['انخفاض في الأداء الذهني والسلوك التكيفي يظهر في مرحلة النمو','تأخر في القراءة فقط','الخجل','ضعف البصر'],0,'وفق التعريفات المعتمدة.'],
+['متلازمة داون تنتج غالبًا عن:',['نسخة إضافية من الكروموسوم 21','نقص فيتامين','إصابة بعد الولادة','العدوى'],0,'التثلث الصبغي 21.'],
+['عسر الكتابة يسمى:',['الديسلكسيا','الديسجرافيا','الديسكالكوليا','الأفيزيا'],1,'صعوبة في الكتابة والتهجئة الخطية.'],
+['غرفة المصادر:',['فصل منفصل طوال اليوم','خدمة جزئية في المدرسة العادية لدعم الطالبة في مهارات محددة','مكتبة المدرسة','غرفة المعلمات'],1,'تبقى الطالبة معظم يومها في فصلها.'],
+['نظام تحصل فيه الطالبة على نقاط أو نجوم تستبدلها لاحقًا بمعززات:',['التعزيز الرمزي','العقاب','الإطفاء','التصحيح الزائد'],0,'من أساليب تعديل السلوك.'],
+['تقديم مساعدة للطالبة ثم تقليلها تدريجيًا حتى تؤدي المهارة باستقلالية:',['التلقين والإخفاء التدريجي','العزل','التعميم','الإشباع'],0,'يمنع الاعتماد الدائم على المساعدة.'],
+['يتم تشخيص ذوي الإعاقة في المدرسة بشكل سليم عبر:',['معلمة واحدة','فريق متعدد التخصصات','ولي الأمر فقط','اختبار واحد'],1,'يجمع مصادر وأدوات متعددة.'],
+['الفائدة الأساسية للتدخل المبكر:',['لا فائدة له','كلما بدأ مبكرًا كانت النتائج أفضل','يؤخر النمو','يُغني عن الأسرة'],1,'المرونة النمائية أكبر في السنوات الأولى.'],
+['نموذج متعدد المستويات يقدم تدخلات متدرجة الشدة حسب استجابة الطالبة:',['الاستجابة للتدخل RTI','IEP','IQ','ABA'],0,'يُستخدم في الكشف والتدخل لصعوبات التعلم.'],
+['قدرة الطالبة على أداء المهارة في مواقف وأماكن مختلفة عن موقف التعلم:',['التعميم','الاكتساب','الإطفاء','النمذجة'],0,'هدف مهم في التربية الخاصة.'],
+['نظام تواصل بديل يعتمد على تبادل البطاقات المصورة:',['PECS','برايل','لغة الإشارة','الهجاء الإصبعي'],0,'يُستخدم كثيرًا مع اضطراب طيف التوحد.'],
+['منح طالبة لديها صعوبة في القراءة وقتًا إضافيًا في الاختبار يعد:',['محاباة','تكييفًا (ترتيبًا تيسيريًا)','عقابًا','تغييرًا للمنهج'],1,'يزيل العائق دون تغيير المحتوى المقيس.'],
+['تكرار حركات مثل رفرفة اليدين أو التأرجح يسمى:',['السلوك النمطي','السلوك التكيفي','التعميم','النمذجة'],0,'من السمات الشائعة في اضطراب طيف التوحد.'],
+['أنسب مكان لجلوس طالبة لديها تشتت انتباه:',['قرب النافذة والباب','قريبًا من المعلمة وبعيدًا عن المشتتات','آخر الصف','بجانب السبورة الجانبية مع الألعاب'],1,'يقلل المشتتات ويسهل المتابعة.'],
+['تعلم سلوك جديد بمشاهدة شخص يؤديه:',['النمذجة','الإطفاء','العقاب','التشكيل'],0,'من أساليب تعليم المهارات.'],
+['زراعة القوقعة تستخدم لبعض حالات:',['الإعاقة البصرية','الإعاقة السمعية','الإعاقة الحركية','صعوبات التعلم'],1,'تحفز العصب السمعي.'],
+['الطلبة الموهوبون ضمن الفئات التي تحتاج إلى:',['لا شيء','برامج إثرائية تلبي قدراتهم','تبسيط المنهج','التعليم المنزلي'],1,'جزء من التربية الخاصة بمفهومها الواسع.'],
+['تعزيز السلوك المرغوب على مراحل متقاربة تدريجيًا حتى الوصول للسلوك النهائي:',['التشكيل','الإطفاء','العزل','التشبع'],0,'تعزيز التقريب المتتالي.'],
+['دور المعلمة في فصل الدمج:',['تجاهل الطالبة ذات الإعاقة','التعاون مع معلمة التربية الخاصة وتكييف التدريس','إرسالها للإدارة','تعليمها منفصلة دائمًا'],1,'الدمج الناجح قائم على الشراكة.']
+],
+guid:[
+['الإرشاد الذي يساعد الطالبة على اختيار تخصصها ومستقبلها المهني:',['الإرشاد المهني','الإرشاد الأسري','الإرشاد العلاجي','الإرشاد الديني'],0,'يربط بين القدرات والميول والمهن.'],
+['يهدف الإرشاد التحصيلي إلى:',['رفع المستوى الدراسي ومعالجة أسباب التأخر','اختيار الأصدقاء','العلاج الطبي','تنظيم الرحلات'],0,'يتابع التحصيل ومشكلاته.'],
+['الهدف الأهم في المقابلة الإرشادية الأولى:',['إصدار الحلول','بناء علاقة ثقة وألفة','كتابة التقرير النهائي','التحويل الفوري'],1,'الأساس لنجاح العملية الإرشادية.'],
+['فهم مشاعر الطالبة من وجهة نظرها:',['التعاطف (التقمص الوجداني)','الشفقة','الحكم','النصح'],0,'من مهارات المرشد الأساسية.'],
+['صاحب نظرية الإرشاد المتمركز حول المسترشد:',['سيجموند فرويد','كارل روجرز','بي. إف. سكنر','ألبرت إليس'],1,'يركز على تقبل الفرد ونموه.'],
+['صاحب نظرية الإرشاد العقلاني الانفعالي:',['ألبرت إليس','كارل روجرز','إريكسون','بافلوف'],0,'الأفكار غير العقلانية سبب الاضطراب الانفعالي.'],
+['يركز الإرشاد المعرفي السلوكي على:',['تعديل الأفكار والسلوكيات معًا','الأحلام فقط','العقاب','الوراثة'],0,'تغيير طريقة التفكير يغير المشاعر والسلوك.'],
+['الإجراء الأنسب عند تكرار غياب طالبة:',['خصم الدرجات فقط','دراسة الأسباب والتواصل مع الأسرة','تجاهل الأمر','إعلان اسمها في الإذاعة'],1,'معالجة الأسباب لا المظاهر فقط.'],
+['طالبة تعاني قلقًا شديدًا قبل الاختبارات. من الأساليب المناسبة:',['تخويفها من الرسوب','التدريب على الاسترخاء وتنظيم المذاكرة','حرمانها من الاختبار','زيادة الواجبات'],1,'يخفف القلق ويحسن الأداء.'],
+['الإساءة أو المضايقة المتكررة عبر وسائل التواصل الإلكترونية:',['التنمر الإلكتروني','الإرشاد الإلكتروني','التعلم عن بعد','المزاح المقبول'],0,'يتطلب توعية وتدخلًا مدرسيًا.'],
+['عند الاشتباه بتعرض طالبة للإيذاء، الإجراء الصحيح:',['التحقيق الشخصي مع الأسرة','إبلاغ الجهة المختصة وفق الأنظمة المعتمدة','تجاهل الأمر','نشر الخبر بين المعلمات'],1,'حماية الطالبة مسؤولية نظامية.'],
+['متى يجوز للمرشدة تجاوز مبدأ السرية؟',['عند فضول المعلمات','عند وجود خطر على الطالبة أو على غيرها','دائمًا','لا يجوز أبدًا'],1,'السلامة مقدمة على السرية.'],
+['يركز الإرشاد الإنمائي على:',['الطالبات اللاتي لديهن مشكلات فقط','تنمية قدرات جميع الطالبات وتعزيز نموهن السوي','العقاب','التشخيص الطبي'],1,'يخدم جميع الطالبات.'],
+['اتفاق مكتوب بين المرشدة والطالبة يحدد السلوك المطلوب والمكافأة:',['العقد السلوكي','دراسة الحالة','السجل القصصي','بطاقة الحضور'],0,'يعزز الالتزام والمسؤولية.'],
+['أي الأسئلة التالية مفتوح ويشجع الطالبة على التعبير؟',['هل أنتِ حزينة؟','كيف تصفين ما حدث معك؟','هل ذاكرتِ؟','هل تحبين المدرسة؟'],1,'لا يُجاب عنه بنعم أو لا.'],
+['من أدوات جمع المعلومات في الإرشاد:',['المقابلة والملاحظة والاستبانة','الشائعات','آراء الزميلات فقط','الدرجات فقط'],0,'تعدد الأدوات يزيد الدقة.'],
+['شعور الطالبة بقيمتها وثقتها بقدراتها يسمى:',['تقدير الذات','الأنانية','الغرور','الانطواء'],0,'يرتبط بالتحصيل والصحة النفسية.'],
+['أنسب ما تفعله المرشدة عند ظهور أعراض اضطراب نفسي شديد على طالبة:',['التعامل معها وحدها','التحويل إلى المختص النفسي مع إشراك الأسرة','تجاهل الأعراض','إخبار زميلاتها'],1,'بعض الحالات تتجاوز حدود الإرشاد المدرسي.'],
+['تعزيز السلوك الإيجابي فور ظهوره يؤدي إلى:',['اختفائه','زيادة احتمال تكراره','لا أثر له','ظهور سلوك سلبي'],1,'من مبادئ التعلم السلوكي.'],
+['الشراكة مع أولياء الأمور في التوجيه الطلابي تتحقق من خلال:',['التواصل المستمر واللقاءات الدورية','الاتصال عند الرسوب فقط','عدم إشراكهم','الرسائل الرسمية آخر العام'],0,'تتكامل جهود المدرسة والأسرة.'],
+['من وسائل التوجيه الجمعي في المدرسة:',['الإذاعة المدرسية والمحاضرات والنشرات التوعوية','الاختبارات','الحصص الإضافية','الجدول المدرسي'],0,'تصل إلى عدد كبير من الطالبات.'],
+['الإنصات الجيد للطالبة يتضمن:',['مقاطعتها لتصحيح كلامها','التواصل البصري وإعادة صياغة ما تقوله','النظر إلى الهاتف','إصدار الأحكام سريعًا'],1,'يشعرها بالاهتمام والفهم.']
+]
+};
+GENERAL.q.push(...ADD.general);
+SPECS.forEach(s=>{ if (ADD[s.id]) s.q.push(...ADD[s.id]); });
+const ALL = [GENERAL, ...SPECS];
+ALL.forEach(s => s.q.forEach((q,i)=>{ q.id = s.id+'-'+i; q.spec = s.id; }));
+const findQ = id => { const [s,i] = id.split('-'); const sp = ALL.find(x=>x.id===s); return sp && sp.q[+i]; };
+const specName = id => (ALL.find(x=>x.id===id)||{}).name || '';
+const TOTAL_Q = ALL.reduce((n,s)=>n+s.q.length,0);
+
+/* ---------- Local storage (per-teacher, this browser) ---------- */
+const KEY='rukhsa111-v1';
+let S = {name:'', results:[], fav:[], wrong:[], theme:''};
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch(e){}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} };
+if (S.theme) document.documentElement.setAttribute('data-theme', S.theme);
+
+/* ---------- Helpers ---------- */
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const isLatin = s => /^[\x00-\x7F]*$/.test(s.replace(/[_\-–'"]/g,''));
+const dir = s => isLatin(s) ? ' dir="ltr" style="text-align:left"' : '';
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const letters = ['أ','ب','ج','د'];
+const fmtDate = t => new Date(t).toLocaleDateString('ar-SA-u-ca-gregory-nu-latn',{day:'numeric',month:'short',year:'numeric'});
+let view = 'home', flow = {}, quiz = null, tick = null;
+
+/* ---------- Menu ---------- */
+const MENU = [['home','الرئيسية','home'],['train','التدريب','book'],['tests','الاختبارات','test'],['bank','بنك الأسئلة','bank'],['fav','المفضلة','star'],['wrong','أخطائي','alert'],['results','النتائج / لوحتي','chart'],['account','حسابي','user']];
+function renderMenu(){
+  const m=$('#menu'); m.innerHTML = MENU.map(([k,t,i])=>`<button type="button" data-go="${k}" class="${view===k||(view==='quiz'&&quiz&&quiz.mode===k)?'on':''}">${ic(i)}${t}</button>`).join('');
+  const on=m.querySelector('.on'); if(on && m.scrollWidth>m.clientWidth){ try{ on.scrollIntoView({block:'nearest',inline:'center'}); }catch(e){} }
+}
+$('#homeBtn').onclick = () => go('home');
+$('#themeBtn').onclick = () => {
+  const cur = document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  const nx = cur==='dark'?'light':'dark'; document.documentElement.setAttribute('data-theme',nx); S.theme=nx; save();
+};
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (g){ e.preventDefault(); go(g.dataset.go, g.dataset.arg); }
+});
+
+function go(v, arg){
+  if (tick){ clearInterval(tick); tick=null; }
+  if (v==='train'||v==='tests'){ flow = {mode:v, step:'type'}; }
+  view = v;
+  render(arg); window.scrollTo({top:0});
+}
+
+const notice = `<div class="notice">${ic('info')}<span>تنبيه: جميع الأسئلة الحالية تدريبية وتجريبية وليست أسئلة رسمية للاختبار.</span></div>`;
+const backBtn = (to,label='العودة') => `<button class="btn back" type="button" data-go="${to}">${ic('arrow')} ${label}</button>`;
+
+/* ---------- Views ---------- */
+function vHome(){
+  const done = S.results.length;
+  const best = done ? Math.max(...S.results.map(r=>r.pct)) : 0;
+  return `
+  <section class="hero">
+    <p class="eyebrow">نحو تعليم أكثر جودة وتميزًا</p>
+    <p class="school">الطفولة المبكرة بابتدائية الحادية عشر بعد المائة</p>
+    <h1>استعدّي للرخصة المهنية بثقة</h1>
+    <p class="lead">تدرّبي على الأسئلة، اختبري مستواك في تخصصك، واكتشفي نقاط القوة والضعف لديك.</p>
+    <div class="acts">
+      <button class="btn btn-light" type="button" data-go="train">${ic('book')} ابدئي التدريب</button>
+      <button class="btn btn-ghost-light" type="button" data-go="tests">${ic('test')} اختبار تجريبي</button>
+    </div>
+  </section>
+  ${notice}
+  <section class="stack">
+    <h2>الجهة التعليمية</h2>
+    <div class="card"><div class="chead"><span class="badge">${ic('school')}</span><h3>الطفولة المبكرة بابتدائية الحادية عشر بعد المائة</h3></div><p class="sub">مديرة المدرسة: فاطمة مسيري</p></div>
+  </section>
+  <section class="stack">
+    <h2>رحلة التدريب</h2>
+    <div class="grid3">
+      <div class="card feature"><div class="chead"><span class="badge">${ic('book')}</span><h3>تدرّبي</h3></div><p class="sub">اختاري تخصصك وأجيبي مع تصحيح فوري وشرح لكل سؤال.</p><button class="btn btn-outline" type="button" data-go="train">انتقل</button></div>
+      <div class="card feature"><div class="chead"><span class="badge">${ic('test')}</span><h3>اختبري نفسك</h3></div><p class="sub">اختبار بوقت محدد وعدد أسئلة تختارينه، والنتيجة في النهاية.</p><button class="btn btn-outline" type="button" data-go="tests">انتقل</button></div>
+      <div class="card feature"><div class="chead"><span class="badge">${ic('chart')}</span><h3>راجعي تقدمك</h3></div><p class="sub">حلّلي نتائجك وتدرّبي على أخطائك.</p><button class="btn btn-outline" type="button" data-go="results">انتقل</button></div>
+    </div>
+  </section>
+  <section class="stack">
+    <h2>مميزات المنصة</h2>
+    <div class="grid3">
+      <div class="card feature"><div class="chead"><span class="badge">${ic('bank')}</span><h3>بنك أسئلة</h3></div><p class="sub">بحث وتصفح للأسئلة التجريبية حسب التخصص.</p><button class="btn btn-outline" type="button" data-go="bank">انتقل</button></div>
+      <div class="card feature"><div class="chead"><span class="badge">${ic('star')}</span><h3>المفضلة</h3></div><p class="sub">احتفظي بالأسئلة المهمة للرجوع إليها.</p><button class="btn btn-outline" type="button" data-go="fav">انتقل</button></div>
+      <div class="card feature"><div class="chead"><span class="badge">${ic('alert')}</span><h3>أخطائي</h3></div><p class="sub">الأسئلة التي أخطأتِ فيها في مكان واحد لإعادة التدريب.</p><button class="btn btn-outline" type="button" data-go="wrong">انتقل</button></div>
+    </div>
+  </section>
+  <section class="stack">
+    <h2>إحصائيات التدريب</h2>
+    <div class="grid2">
+      <div class="card"><div class="stat">${TOTAL_Q}</div><p class="sub">سؤالًا تجريبيًا متاحًا</p></div>
+      <div class="card"><div class="stat">${SPECS.length}</div><p class="sub">تخصصًا إضافة إلى الاختبار التربوي العام</p></div>
+      <div class="card"><div class="stat">${done}</div><p class="sub">اختبارات مكتملة</p></div>
+      <div class="card"><div class="stat">${S.fav.length}</div><p class="sub">أسئلة محفوظة في المفضلة</p></div>
+    </div>
+    ${done?`<p class="sub" style="color:var(--muted)">أفضل نتيجة لكِ حتى الآن: <b style="color:var(--ink)">${best}٪</b></p>`:''}
+  </section>`;
+}
+
+function vFlow(){
+  const mode = flow.mode, mName = mode==='train'?'التدريب':'الاختبارات';
+  if (flow.step==='type') return `
+    ${backBtn('home')}
+    <p class="crumbs"><button type="button" data-go="home">الرئيسية</button> ‹ ${mName} ‹ نوع الاختبار</p>
+    <div class="stack" style="gap:4px"><h1>اختاري نوع ${mode==='train'?'التدريب':'الاختبار'}</h1><p style="color:var(--muted)">${mode==='train'?'تصحيح فوري وشرح بعد كل سؤال.':'وقت محدد بدقيقة لكل سؤال، والنتيجة والتصحيح في النهاية.'}</p></div>
+    ${notice}
+    <div class="grid2">
+    <div class="card feature"><div class="chead"><span class="badge">${ic('book')}</span><h3>الاختبار التربوي العام</h3></div><p class="sub">${GENERAL.desc}</p><button class="btn btn-primary" type="button" id="pickGeneral">انتقل</button></div>
+    <div class="card feature"><div class="chead"><span class="badge">${ic('cap')}</span><h3>الاختبار التخصصي</h3></div><p class="sub">أسئلة متنوعة في جميع التخصصات. اختاري تخصصك من القائمة.</p><button class="btn btn-primary" type="button" id="pickSpec">انتقل</button></div>
+    </div>`;
+  // setup step
+  const isGen = flow.spec==='general';
+  if (!flow.count) flow.count = 10;
+  const sp = ALL.find(x=>x.id===flow.spec);
+  const avail = sp ? sp.q.length : 0;
+  const over = sp && flow.count > avail;
+  return `
+    <button class="btn back" type="button" id="toType">${ic('arrow')} العودة</button>
+    <p class="crumbs"><button type="button" data-go="home">الرئيسية</button> ‹ ${mName} ‹ ${isGen?'التربوي العام':'الاختبار التخصصي'}</p>
+    <h1>${isGen?'الاختبار التربوي العام':'إعداد الاختبار التخصصي'}</h1>
+    <div class="card stack" style="gap:22px">
+      ${isGen?'':`<div class="field"><label for="specSel"><h3>اختاري التخصص</h3></label>
+        <div class="selectbox"><select id="specSel"><option value="" ${!flow.spec?'selected':''} disabled>اضغطي لاختيار تخصصك</option>${SPECS.map(s=>`<option value="${s.id}" ${flow.spec===s.id?'selected':''}>${s.name}</option>`).join('')}</select></div></div>`}
+      <div class="field"><label for="countRange"><h3>اختاري عدد الأسئلة</h3></label>
+        <div class="countrow">
+          <input type="range" id="countRange" min="10" max="100" step="5" value="${flow.count}">
+          <span class="countnum"><input type="number" id="countNum" min="10" max="100" value="${flow.count}" aria-label="عدد الأسئلة"><span>سؤالًا</span></span>
+        </div>
+        <div class="ticks"><span>10</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+        <p class="sub" id="countNote" ${over?'':'hidden'}>المتاح حاليًا في هذا المسار ${avail} سؤالًا، وستظهر لكِ جميعها بترتيب عشوائي.</p>
+      </div>
+      <p class="sub" id="timeNote">${mode==='tests'?`الوقت المتاح: <b>${Math.min(flow.count, avail||flow.count)}</b> دقيقة (دقيقة لكل سؤال).`:'ستظهر الإجابة الصحيحة وشرحها بعد كل سؤال.'}</p>
+      <p class="sub" id="pickWarn" hidden style="color:var(--bad)">اختاري التخصص أولًا.</p>
+      <button class="btn btn-primary" type="button" id="startQuiz" style="align-self:flex-start">${ic('check')} ابدئي ${mode==='train'?'التدريب':'الاختبار'}</button>
+    </div>`;
+}
+function bindFlow(){
+  const g=$('#pickGeneral'); if(g) g.onclick=()=>{ flow.spec='general'; flow.step='setup'; render(); };
+  const s=$('#pickSpec'); if(s) s.onclick=()=>{ flow.spec=''; flow.step='setup'; render(); };
+  const t=$('#toType'); if(t) t.onclick=()=>{ flow.step='type'; render(); };
+  const sel=$('#specSel'); if(sel) sel.onchange=()=>{ flow.spec=sel.value; $('#pickWarn').hidden=true; upd(); };
+  const r=$('#countRange'), n=$('#countNum');
+  function upd(){
+    const sp = ALL.find(x=>x.id===flow.spec), avail = sp?sp.q.length:0;
+    const note=$('#countNote'); if (note){ note.hidden = !(sp && flow.count>avail); note.textContent = sp?`المتاح حاليًا في هذا المسار ${avail} سؤالًا، وستظهر لكِ جميعها بترتيب عشوائي.`:''; }
+    const tn=$('#timeNote'); if (tn && flow.mode==='tests') tn.innerHTML = `الوقت المتاح: <b>${sp?Math.min(flow.count,avail):flow.count}</b> دقيقة (دقيقة لكل سؤال).`;
+  }
+  if (r){
+    r.oninput=()=>{ flow.count=+r.value; n.value=r.value; upd(); };
+    n.onchange=()=>{ let v=Math.round(+n.value||10); v=Math.max(10,Math.min(100,v)); flow.count=v; n.value=v; r.value=v; upd(); };
+  }
+  const st=$('#startQuiz'); if(st) st.onclick=()=>{
+    const sp=ALL.find(x=>x.id===flow.spec);
+    if (!sp){ $('#pickWarn').hidden=false; sel && sel.focus(); return; }
+    startQuiz(flow.mode, sp.name, shuffle(sp.q).slice(0,flow.count));
+  };
+}
+
+function startQuiz(mode, title, qs){
+  quiz = { mode, title, idx:0, start:Date.now(),
+    items: qs.map(q=>{ const order = shuffle([0,1,2,3].slice(0,q[1].length)); return {id:q.id, q:q[0], opts:order.map(i=>q[1][i]), ans:order.indexOf(q[2]), why:q[3]}; }),
+    picks: [], want: flow.count, limit: mode==='tests' ? qs.length*60 : 0 };
+  view='quiz'; render(); window.scrollTo({top:0});
+  if (quiz.limit){ tick = setInterval(()=>{ const el=$('#tleft'); const left = quiz.limit - Math.floor((Date.now()-quiz.start)/1000); if (left<=0){ finish(); return; } if(el) el.textContent = mmss(left); }, 1000); }
+}
+const mmss = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+
+function vQuiz(){
+  const it = quiz.items[quiz.idx], n = quiz.items.length, pick = quiz.picks[quiz.idx];
+  const train = quiz.mode!=='tests', revealed = train && pick!==undefined;
+  const isFav = S.fav.includes(it.id);
+  const left = quiz.limit ? quiz.limit - Math.floor((Date.now()-quiz.start)/1000) : 0;
+  return `
+  <div class="stack" style="gap:8px">
+    <p class="crumbs">${train?'التدريب':'الاختبار'} · ${esc(quiz.title)}</p>
+    <div class="qhead"><span>السؤال ${quiz.idx+1} من ${n}</span>${quiz.limit?`<span class="timer">${ic('clock')}<span id="tleft">${mmss(Math.max(0,left))}</span></span>`:`<span>${quiz.picks.filter((p,i)=>p===quiz.items[i].ans).length} إجابة صحيحة</span>`}</div>
+    <div class="progress" aria-hidden="true"><i style="width:${(quiz.idx+1)/n*100}%"></i></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:6px"><button class="star ${isFav?'on':''}" type="button" id="favBtn" aria-pressed="${isFav}">${ic('star')}${isFav?'في المفضلة':'أضيفي للمفضلة'}</button></div>
+    <p class="qtext"${dir(it.q)}>${esc(it.q)}</p>
+    <div class="opts">${it.opts.map((o,i)=>{
+      let cls=''; if (revealed){ if(i===it.ans) cls='right'; else if(i===pick) cls='wrong'; } else if (i===pick) cls='sel';
+      return `<button class="opt ${cls}" type="button" data-opt="${i}" ${revealed?'disabled':''}><span class="k">${letters[i]}</span><span${dir(o)} style="flex:1;min-width:0${isLatin(o)?';text-align:left':''}">${esc(o)}</span></button>`; }).join('')}</div>
+    ${revealed?`<div class="why"><b>${pick===it.ans?'إجابة صحيحة.':'الإجابة الصحيحة: '+esc(it.opts[it.ans])}</b><br><span${dir(it.why)}>${esc(it.why)}</span></div>`:''}
+  </div>
+  <div class="qnav">
+    <button class="btn btn-outline" type="button" id="prevQ" ${quiz.idx===0?'disabled':''}>السابق</button>
+    ${quiz.idx<n-1
+      ? `<button class="btn btn-primary" type="button" id="nextQ" ${train&&pick===undefined?'disabled':''}>التالي</button>`
+      : `<button class="btn btn-primary" type="button" id="finishQ">${ic('check')} إنهاء وعرض النتيجة</button>`}
+  </div>
+  ${!train?`<p class="sub" style="color:var(--muted);text-align:center">أجبتِ عن ${quiz.picks.filter(p=>p!==undefined).length} من ${n}. يمكنك التنقل بين الأسئلة قبل الإنهاء.</p>`:''}`;
+}
+function bindQuiz(){
+  app.querySelectorAll('[data-opt]').forEach(b=>b.onclick=()=>{ quiz.picks[quiz.idx]=+b.dataset.opt; render(); });
+  const p=$('#prevQ'); if(p) p.onclick=()=>{ quiz.idx--; render(); };
+  const nx=$('#nextQ'); if(nx) nx.onclick=()=>{ quiz.idx++; render(); window.scrollTo({top:0}); };
+  const f=$('#finishQ'); if(f) f.onclick=finish;
+  $('#favBtn').onclick=()=>{ const id=quiz.items[quiz.idx].id; S.fav = S.fav.includes(id)? S.fav.filter(x=>x!==id) : [...S.fav,id]; save(); render(); };
+}
+
+function finish(){
+  if (tick){ clearInterval(tick); tick=null; }
+  const items = quiz.items, n = items.length;
+  const right = items.filter((it,i)=>quiz.picks[i]===it.ans).length;
+  const pct = Math.round(right/n*100);
+  items.forEach((it,i)=>{ if (quiz.picks[i]===it.ans) S.wrong = S.wrong.filter(x=>x!==it.id); else if (!S.wrong.includes(it.id)) S.wrong.push(it.id); });
+  S.results.unshift({t:Date.now(), title:quiz.title, mode:quiz.mode, right, n, pct, secs:Math.round((Date.now()-quiz.start)/1000)});
+  S.results = S.results.slice(0,50); save();
+  quiz.done = {right, n, pct}; view='result'; render(); window.scrollTo({top:0});
+}
+
+function ring(pct){
+  const r=60, c=2*Math.PI*r, col = pct>=80?'var(--good)':pct>=50?'var(--teal)':'var(--bad)';
+  return `<svg class="ring" viewBox="0 0 150 150" role="img" aria-label="النتيجة ${pct}٪"><circle cx="75" cy="75" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="14"/><circle cx="75" cy="75" r="${r}" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c*pct/100} ${c}" transform="rotate(-90 75 75)"/><text x="75" y="84" text-anchor="middle" font-family="Readex Pro, sans-serif" font-size="30" font-weight="700" fill="var(--ink)">${pct}٪</text></svg>`;
+}
+function vResult(){
+  const {right,n,pct} = quiz.done;
+  const lvl = pct>=80?['good','ممتاز، أنتِ جاهزة في هذا المسار']:pct>=50?['mid','جيد، راجعي الأسئلة الخاطئة']:['bad','تحتاجين مزيدًا من التدريب'];
+  return `
+  <div class="card result-top">
+    <p class="crumbs">${esc(quiz.title)}</p>
+    ${ring(pct)}
+    <h1 style="font-size:1.4rem">${right} إجابة صحيحة من ${n}</h1>
+    <span class="pill ${lvl[0]}">${lvl[1]}</span>
+    <div class="acts" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px">
+      <button class="btn btn-primary" type="button" id="again">إعادة بأسئلة جديدة</button>
+      ${n-right?`<button class="btn btn-outline" type="button" data-go="wrong">التدريب على أخطائي</button>`:''}
+      <button class="btn btn-outline" type="button" data-go="home">الرئيسية</button>
+    </div>
+  </div>
+  <section class="stack"><h2>مراجعة الإجابات</h2>
+  ${quiz.items.map((it,i)=>{ const p=quiz.picks[i], ok=p===it.ans; return `<div class="card rev ${ok?'ok':'no'} stack" style="gap:6px">
+    <p class="q"${dir(it.q)}>${i+1}. ${esc(it.q)}</p>
+    <p class="a">إجابتك: <b>${p===undefined?'لم تُجيبي':esc(it.opts[p])}</b>${ok?' ✓':''}</p>
+    ${ok?'':`<p class="a">الصحيحة: <b style="color:var(--good)">${esc(it.opts[it.ans])}</b></p>`}
+    <p class="a"${dir(it.why)}>${esc(it.why)}</p></div>`; }).join('')}
+  </section>`;
+}
+function bindResult(){ const a=$('#again'); if(a) a.onclick=()=>{ if (quiz.src){ startQuiz(quiz.mode, quiz.title, shuffle(quiz.src)); return; } const sp=ALL.find(x=>x.name===quiz.title); if (sp) startQuiz(quiz.mode, sp.name, shuffle(sp.q).slice(0,quiz.want||quiz.items.length)); else go('home'); }; }
+
+function qList(ids, emptyMsg, title, practiceLabel){
+  const qs = ids.map(findQ).filter(Boolean);
+  if (!qs.length) return `<div class="card empty">${emptyMsg}</div>`;
+  return `<button class="btn btn-primary" type="button" id="practiceList" style="align-self:flex-start">${ic('book')} ${practiceLabel} (${qs.length})</button>
+  ${qs.map(q=>bankItem(q, true)).join('')}`;
+}
+function bankItem(q, showSpec){
+  const fav = S.fav.includes(q.id);
+  return `<details class="bq"><summary${dir(q[0])}>${esc(q[0])}${showSpec?`<br><span style="font-weight:400;font-size:.85rem;color:var(--muted)">${specName(q.spec)}</span>`:''}</summary><div class="body">
+    ${q[1].map((o,i)=>`<span${dir(o)} class="${i===q[2]?'ans':''}">${letters[i]}) ${esc(o)}${i===q[2]?' ✓':''}</span>`).join('')}
+    <span style="color:var(--muted)"${dir(q[3])}>${esc(q[3])}</span>
+    <button class="star ${fav?'on':''}" type="button" data-fav="${q.id}" style="align-self:flex-start">${ic('star')}${fav?'إزالة من المفضلة':'أضيفي للمفضلة'}</button></div></details>`;
+}
+function bindLists(src, title){
+  app.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>{ const id=b.dataset.fav; S.fav = S.fav.includes(id)? S.fav.filter(x=>x!==id):[...S.fav,id]; save(); const open=[...app.querySelectorAll('details[open]')].map(d=>d.querySelector('[data-fav]').dataset.fav); render(); app.querySelectorAll('details').forEach(d=>{ const f=d.querySelector('[data-fav]'); if(f&&open.includes(f.dataset.fav)) d.open=true; }); });
+  const pl=$('#practiceList'); if(pl && src) pl.onclick=()=>{ const qs=src().map(findQ).filter(Boolean); startQuiz('train', title, shuffle(qs)); quiz.src = qs; };
+}
+
+let bankSpec='all', bankText='';
+function vBank(){
+  const pool = (bankSpec==='all'?ALL:ALL.filter(s=>s.id===bankSpec)).flatMap(s=>s.q);
+  const t = bankText.trim();
+  const qs = t ? pool.filter(q=>(q[0]+' '+q[1].join(' ')).toLowerCase().includes(t.toLowerCase())) : pool;
+  return `${backBtn('home')}
+  <div class="stack" style="gap:4px"><h1>بنك الأسئلة</h1><p style="color:var(--muted)">تصفحي الأسئلة مع الإجابة والشرح. اضغطي على السؤال لعرض الخيارات.</p></div>
+  <div class="field"><label for="bankQ">ابحثي في الأسئلة</label><input class="search" id="bankQ" type="search" placeholder="مثال: بياجيه، الكسور، التنوين" value="${esc(bankText)}"></div>
+  <div class="field"><label for="bankSel">التخصص</label><div class="selectbox"><select id="bankSel">${[['all','جميع التخصصات'],...ALL.map(s=>[s.id,s.id==='general'?'التربوي العام':s.name])].map(([id,nm])=>`<option value="${id}" ${bankSpec===id?'selected':''}>${nm}</option>`).join('')}</select></div></div>
+  <p class="sub" style="color:var(--muted)">${qs.length} سؤالًا</p>
+  <div class="stack" style="gap:10px">${qs.length?qs.map(q=>bankItem(q, bankSpec==='all')).join(''):'<div class="card empty">لا توجد أسئلة مطابقة لبحثك.</div>'}</div>`;
+}
+function bindBank(){
+  $('#bankSel').onchange=e=>{ bankSpec=e.target.value; render(); };
+  const i=$('#bankQ'); i.oninput=()=>{ bankText=i.value; const pos=i.selectionStart; render(); const j=$('#bankQ'); j.focus(); try{j.setSelectionRange(pos,pos);}catch(e){} };
+  bindLists(null);
+}
+
+function vResults(){
+  const R = S.results;
+  if (!R.length) return `${backBtn('home')}<h1>النتائج / لوحتي</h1><div class="card empty">لم تُكملي أي اختبار بعد. ابدئي <button class="btn btn-outline" type="button" data-go="tests" style="margin-top:12px">اختبارًا تجريبيًا</button></div>`;
+  const avg = Math.round(R.reduce((a,r)=>a+r.pct,0)/R.length);
+  const bySpec = {}; R.forEach(r=>{ (bySpec[r.title] ||= []).push(r.pct); });
+  const rows = Object.entries(bySpec).map(([k,v])=>[k, Math.round(v.reduce((a,b)=>a+b,0)/v.length), v.length]).sort((a,b)=>b[1]-a[1]);
+  return `${backBtn('home')}
+  <h1>النتائج / لوحتي</h1>
+  <div class="grid3">
+    <div class="card"><div class="stat">${R.length}</div><p class="sub">اختبارات مكتملة</p></div>
+    <div class="card"><div class="stat">${avg}٪</div><p class="sub">متوسط الدرجات</p></div>
+    <div class="card"><div class="stat">${S.wrong.length}</div><p class="sub">سؤالًا في «أخطائي»</p></div>
+  </div>
+  <section class="stack"><h2>الأداء حسب المسار</h2>
+    <div class="card stack" style="gap:12px">${rows.map(([k,p,c])=>`<div class="stack" style="gap:4px"><div class="qhead"><span style="color:var(--ink)">${esc(k)}</span><span>${p}٪ · ${c} ${c===1?'محاولة':'محاولات'}</span></div><div class="progress"><i style="width:${p}%;background:${p>=80?'var(--good)':p>=50?'var(--teal)':'var(--bad)'}"></i></div></div>`).join('')}</div>
+  </section>
+  <section class="stack"><h2>سجل المحاولات</h2>
+    <div class="card table-wrap"><table><thead><tr><th>التاريخ</th><th>المسار</th><th>النوع</th><th>الدرجة</th></tr></thead><tbody>
+    ${R.map(r=>`<tr><td>${fmtDate(r.t)}</td><td>${esc(r.title)}</td><td>${r.mode==='tests'?'اختبار':'تدريب'}</td><td><b>${r.right}/${r.n}</b> (${r.pct}٪)</td></tr>`).join('')}
+    </tbody></table></div>
+    <button class="btn btn-outline" type="button" id="clearRes" style="align-self:flex-start">مسح السجل</button>
+    <p id="clearConfirm" hidden class="notice">${ic('alert')}<span>سيُحذف سجل النتائج من هذا الجهاز. <button class="btn btn-primary" type="button" id="clearYes" style="padding:6px 14px;margin-inline-start:8px">تأكيد المسح</button></span></p>
+  </section>`;
+}
+function bindResults(){ const c=$('#clearRes'); if(c) c.onclick=()=>{ $('#clearConfirm').hidden=false; }; const y=$('#clearYes'); if(y) y.onclick=()=>{ S.results=[]; save(); render(); }; }
+
+function vAccount(){
+  return `${backBtn('home')}
+  <h1>حسابي</h1>
+  <div class="card stack">
+    <div class="field"><label for="tName">اسم المعلمة</label><input id="tName" type="text" value="${esc(S.name)}" placeholder="اكتبي اسمك"></div>
+    <button class="btn btn-primary" type="button" id="saveName" style="align-self:flex-start">حفظ</button>
+    <p class="sub" id="savedMsg" hidden style="color:var(--good)">تم الحفظ.</p>
+  </div>
+  <div class="notice">${ic('info')}<span>تُحفظ نتائجك ومفضلتك وأخطاؤك على هذا الجهاز وهذا المتصفح فقط، ولا يراها أحد غيرك.</span></div>`;
+}
+function bindAccount(){ $('#saveName').onclick=()=>{ S.name=$('#tName').value.trim(); save(); $('#savedMsg').hidden=false; }; }
+
+function render(){
+  let html='';
+  if (view==='home') html=vHome();
+  else if (view==='train'||view==='tests') html=vFlow();
+  else if (view==='quiz') html=vQuiz();
+  else if (view==='result') html=vResult();
+  else if (view==='bank') html=vBank();
+  else if (view==='fav') html=`${backBtn('home')}<div class="stack" style="gap:4px"><h1>المفضلة</h1><p style="color:var(--muted)">الأسئلة التي حفظتِها أثناء التدريب أو من بنك الأسئلة.</p></div>${qList(S.fav,'لا توجد أسئلة في المفضلة بعد. اضغطي على النجمة بجانب أي سؤال لحفظه.','المفضلة','تدرّبي على المفضلة')}`;
+  else if (view==='wrong') html=`${backBtn('home')}<div class="stack" style="gap:4px"><h1>أخطائي</h1><p style="color:var(--muted)">كل سؤال تخطئين فيه يُضاف هنا، ويُحذف عندما تجيبين عنه إجابة صحيحة.</p></div>${qList(S.wrong,'لا توجد أخطاء مسجلة. أحسنتِ!','أخطائي','تدرّبي على أخطائي')}`;
+  else if (view==='results') html=vResults();
+  else if (view==='account') html=vAccount();
+  app.innerHTML = html;
+  if (S.name && view==='home'){ const h=app.querySelector('.hero .eyebrow'); if(h) h.textContent = 'أهلًا '+S.name+' · نحو تعليم أكثر جودة وتميزًا'; }
+  if (view==='train'||view==='tests') bindFlow();
+  if (view==='quiz') bindQuiz();
+  if (view==='result') bindResult();
+  if (view==='bank') bindBank();
+  if (view==='fav') bindLists(()=>S.fav,'المفضلة');
+  if (view==='wrong') bindLists(()=>S.wrong.slice(),'أخطائي');
+  if (view==='results') bindResults();
+  if (view==='account') bindAccount();
+  renderMenu();
+}
+render();
+</script>
+
+</body>
+</html>
